@@ -35,7 +35,6 @@ class YoutubeParametros(View):
                 messages.info(self.request, "Error al procesar los parámetros de la solicitud")
                 return redirect('app:pages:youtube')
 
-
 class YoutubeVideo(View):
     def get(self, *args, **kwargs):
         return render(self.request, "youtube/resultadosVideos.html")
