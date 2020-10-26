@@ -32,7 +32,7 @@ class YoutubeParametros(View):
             if comentariosForm.is_valid():
                 return redirect('app:pages:youtube_resultados_comentarios')
             else:
-                messages.info(self.request, "Error al procesar los parámetros")
+                messages.info(self.request, "Error al procesar los parámetros de la solicitud")
                 return redirect('app:pages:youtube')
 
 
