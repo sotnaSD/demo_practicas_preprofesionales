@@ -131,3 +131,8 @@ TWITTER_CONSUMER_KEY = config('TWITTER_CONSUMER_KEY', default='')
 TWITTER_CONSUMER_SECRET = config('TWITTER_CONSUMER_SECRET', default='')
 TWITTER_ACCESS_TOKEN = config('TWITTER_ACCESS_TOKEN', default='')
 TWITTER_ACCESS_TOKEN_SECRET = config('TWITTER_ACCESS_TOKEN_SECRET' , default='')
+
+#credenciales para la extracción de datos de youtube
+YOUTUBE_DEVELOPER_KEY = "AIzaSyDUVgbJXtNtdFcPsyL7Std9GJfJAkSuvYg"
+YOUTUBE_API_SERVICE_NAME = "youtube"
+YOUTUBE_API_VERSION = "v3"
