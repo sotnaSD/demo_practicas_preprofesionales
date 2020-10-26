@@ -31,3 +31,6 @@ class Tweet(models.Model):
     # tweetRetweet_count = models.IntegerField()
     # tweetFavorite_count = models.IntegerField()
     # tweetLocation = models.TextField()
+
+    def search2(self):
+        return None
