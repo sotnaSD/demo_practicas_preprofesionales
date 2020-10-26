@@ -24,7 +24,7 @@ class YoutubeParametros(View):
             if videosForm.is_valid():
                 return redirect('app:pages:youtube_resultados')
             else:
-                messages.info(self.request, "Error al procesar los parámetros")
+                messages.info(self.request, "Error al procesar los parámetros de la solicitud")
                 return redirect('app:pages:youtube')
         elif 'comentarios' in self.request.POST:
             comentariosForm = YoutubeCommentForm(self.request.POST or None)
