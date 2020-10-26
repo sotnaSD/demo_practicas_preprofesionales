@@ -33,6 +33,4 @@ class Tweet(models.Model):
     # tweetFavorite_count = models.IntegerField()
     # tweetLocation = models.TextField()
 
-     def search2(self):
-        return None
 
