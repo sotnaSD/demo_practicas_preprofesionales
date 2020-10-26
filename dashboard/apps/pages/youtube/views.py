@@ -33,6 +33,8 @@ class YoutubeParametros(View):
             else:
                 messages.info(self.request, "Error al procesar los parámetros de la solicitud")
                 return redirect('app:pages:youtube')
+                #messages.info(self.request, "Error al procesar los parámetros de la solicitud")
+                #return redirect('app:pages:youtube')
 
 
 class YoutubeVideo(View):
