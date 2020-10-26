@@ -16,12 +16,14 @@ app_name = 'pages'
 
 
 urlpatterns = [
-    path('', mainViews.IndexView.as_view(),name='index'),
+    path('', mainViews.IndexView.as_view(), name='index'),
     path('facebook',facebookViews.IndexView.as_view(),	name='facebook'),
     path('instagram', instagramViews.IndexView.as_view(), name='instagram'),
     path('twitter', twitterViews.IndexView.as_view(), name='twitter'),
     path('mercadolibre',mercadoLibreViews.IndexView.as_view(),	name='mercadolibre'),
-    path('youtube', youtubeViews.IndexView.as_view(), name='youtube'),
+    path('youtube', youtubeViews.YoutubeParametros.as_view(), name='youtube'),
+    path('youtube-resultados/', youtubeViews.YoutubeVideo.as_view(), name='youtube_resultados'),
+    path('youtube-resultados-comentarios/', youtubeViews.YoutubeComentarios.as_view(), name='youtube_resultados_comentarios'),
     path('olx', olxViews.IndexView.as_view(), name='olx'),
     path('google', googleViews.IndexView.as_view(), name='google'),
 ]

@@ -7,5 +7,5 @@ app_name = 'app'
 
 urlpatterns = [
     path('', IndexView.as_view(),	name='index'),
-    path('pages/',include('dashboard.apps.pages.urls')),
+    path('plataforma/', include('dashboard.apps.pages.urls')),
 ]

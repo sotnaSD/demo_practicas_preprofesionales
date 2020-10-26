@@ -1,10 +1,162 @@
 {% extends 'site/base.html' %}
 {% load static %}
 {% block title %}
-Dashboard with Django and Bootstrap
+    Youtube | Parametros
 {% endblock title %}
 {% block content %}
-<div class="alert alert-danger" role="alert">
-    Youtube
-  </div>
+    <div class="container-fluid">
+        {% if messages %}
+            {% for message in messages %}
+
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show font-weight-bold" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+
+            {% endfor %}
+        {% endif %}
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+
+            <h1 class="h3 mb-0 text-gray-800">Extracción Datos Youtube</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                    class="fas fa-download fa-sm text-white-50"></i> Generar Reporte</a>
+        </div>
+
+
+        <!-- Content Row parametros y resultados tabla -->
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="card shadow mb-6">
+                    <nav>
+                        <div class="nav nav-tabs card-header py-2 d-flex flex-row align-items-center " id="nav-tab"
+                             role="tablist">
+                            <a class="nav-link  text-primary active" id="nav-parametros-tab" data-toggle="tab"
+                               href="#nav-parametros"
+                               role="tab" aria-controls="nav-parametros" aria-selected="true">
+                                Parametros
+                            </a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active py-4" id="nav-parametros" role="tabpanel"
+                             aria-labelledby="nav-parametros-tab">
+                            <div class="card-body py-0">
+                                <div class="row">
+                                    <!-- Card agregar parametros  -->
+                                    <div class="col-xl-6 col-md-6 col-sm-12 mb-3">
+                                        <div class="card border-bottom-danger shadow h-100 py-0 ">
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <div class="col 12">
+                                                    <h3 class="text-md-left text-black-50 pt-2">Extraer datos de videos
+                                                        de Youtube</h3>
+
+                                                    <h4 class="text-xs font-weight-bold text-primary text-uppercase py-2">
+                                                        Palabras Clave</h4>
+                                                    <div class="col-sm-12 col-md-12 col-xl-12" style="margin: 15px 0px">
+                                                        <input type="text" class="form-control"
+                                                               placeholder="Ejm: mascarillas,tela,algodon"
+                                                               name="palabrasClave"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase">
+                                                        Videos publicados después de:
+                                                    </div>
+                                                    <!-- Date Picker Input -->
+                                                    <div class="datepicker date input-group  col-sm-12 col-md-12 col-xl-7"
+                                                         style="margin: 15px 0px">
+                                                        <input type="text" placeholder="Escoger una fecha"
+                                                               class="form-control" id="reservationDate" name="fecha">
+                                                        <div class="input-group-append"><span
+                                                                class="input-group-text"><i
+                                                                class="fa fa-clock-o"></i></span></div>
+                                                    </div>
+                                                    <!-- DEnd ate Picker Input -->
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase">
+                                                        Región:
+                                                    </div>
+                                                    <!-- Date Picker Input -->
+                                                    <div class="col-sm-12 col-md-12 col-xl-7" style="margin: 15px 0px">
+                                                        <input type="text" placeholder="Ejm: 'EC' para Ecuador"
+                                                               class="form-control" id="reservationDate" name="region">
+                                                    </div>
+                                                    <!-- DEnd ate Picker Input -->
+                                                </div>
+                                                <!-- boton de generara consulta -->
+                                                <div style="padding: 15px;text-align: center">
+                                                    <button href="#" class=" btn btn-sm btn-success shadow-sm"
+                                                            type="submit" name="videos"><i
+                                                            class="fas fa-download fa-sm text-white-50"></i> Generar
+                                                        Consulta
+                                                    </button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- Card agregar parametros  -->
+                                    <div class="col-xl-6 col-md-6 col-sm-12 mb-3">
+                                        <div class="card border-bottom-danger shadow h-100 py-0 ">
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <div class="col 12">
+                                                    <h3 class="text-md-left text-black-50 pt-2">Extraer datos de
+                                                        comentarios de video de Youtube</h3>
+                                                    <h4 class="text-xs font-weight-bold text-primary text-uppercase py-2">
+                                                        Id del video</h4>
+                                                    <div class="col-sm-12 col-md-12 col-xl-7" style="margin: 15px 0px">
+                                                        <input type="text" class="form-control"
+                                                               placeholder="Ingrese el id del Video"
+                                                               name="videoId"/>
+                                                    </div>
+                                                </div>
+                                                <!-- boton de generara consulta -->
+                                                <div style="padding: 15px;text-align: center">
+                                                    <button href="#" class=" btn btn-sm btn-success shadow-sm"
+                                                            type="submit" name="comentarios"><i
+                                                            class="fas fa-download fa-sm text-white-50"></i> Generar
+                                                        Consulta
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    {% block extraScripts %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+        <script>
+            $(function () {
+
+                // INITIALIZE DATEPICKER PLUGIN
+                $('.datepicker').datepicker({
+                    clearBtn: true,
+                    format: "yyyy-mm-dd",
+                    locale: 'es-es',
+                });
+
+
+                // FOR DEMO PURPOSE
+                $('#reservationDate').on('change', function () {
+                    var pickedDate = $('input').val();
+                    $('#pickedDate').html(pickedDate);
+                });
+            });
+        </script>
+    {% endblock %}
 {% endblock content %}

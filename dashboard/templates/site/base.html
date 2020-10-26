@@ -10,7 +10,7 @@
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 
-	<title>{% block title %}SB Admin 2 - Dashboard{% endblock title %}</title>
+	<title>{% block title %}\Dashboard Extracción de Datos{% endblock title %}</title>
 
 	<link href="{% static 'vendor/fontawesome-free/5.9.0/css/all.min.css' %}" rel="stylesheet" type="text/css" />
 	<link
@@ -274,6 +274,8 @@
 	<script src="{% static 'vendor/sb-admin-2/js/demo/chart-pie-demo.js' %}"></script>
 
 	<script src="{% static 'site/js/site.js' %}"></script>
+{%  block extraScripts %}
+{% endblock extraScripts %}
 </body>
 
 </html>
