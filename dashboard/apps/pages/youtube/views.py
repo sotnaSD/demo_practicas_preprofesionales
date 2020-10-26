@@ -27,7 +27,6 @@ class YoutubeParametros(View):
                 messages.info(self.request, "Error al procesar los parámetros")
                 return redirect('app:pages:youtube')
         elif 'comentarios' in self.request.POST:
-            print("sasassaassasaas")
             comentariosForm = YoutubeCommentForm(self.request.POST or None)
             if comentariosForm.is_valid():
                 return redirect('app:pages:youtube_resultados_comentarios')
