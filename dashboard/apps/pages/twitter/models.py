@@ -18,7 +18,6 @@ class Tweet(models.Model):
     tweetFavorite_count = models.IntegerField()
     tweetLocation = models.TextField()
 
-
     # consulted_at = models.DateTimeField()
     # created_at = models.DateTimeField()
     # userName = models.CharField(max_length=200)
@@ -33,4 +32,5 @@ class Tweet(models.Model):
     # tweetFavorite_count = models.IntegerField()
     # tweetLocation = models.TextField()
 
-
+    def search2(self):
+        return None
