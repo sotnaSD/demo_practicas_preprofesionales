@@ -5,9 +5,16 @@ __pycache__/
 
 
 # IDEs project files
-.idea
-.vscode
+.idea/*
+.vscode/*
 rest-client.env.json
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # Environments
 .env
