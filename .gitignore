@@ -5,9 +5,12 @@ __pycache__/
 
 
 # IDEs project files
-.idea/*
-.vscode/*
-rest-client.env.json
+
+# PhpStorm
+.idea
+
+# VSCode
+.vscode
 
 ### VisualStudioCode ###
 .vscode/*
