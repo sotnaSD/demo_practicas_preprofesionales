@@ -1,168 +1,216 @@
 {% extends 'site/base.html' %}
 {% load static %}
 {% block title %}
-Dashboard 
-{% endblock title %}
+Dashboard
+{%endblock title %}
+
+{% block    extra_styles %}
+<link href="{% static 'site/css/site.css' %}" rel="stylesheet" type="text/css" />
+{% endblock extra_styles %}
 
 {% block content %}
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-            ><i class="fas fa-download fa-sm text-white-50"></i> Generar reporte</a
-        >
+    <div class="row py-2 mb-1">
+        <div class="col-md-8">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <div class="row py-4">
+                <!-- Numero de datos -->
+                <div class="col-md-4">
+
+
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total de datos extraidos
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_datos }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- fin numero de datos -->
+                <!-- Numero de parametros -->
+                <div class="col-md-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Total Solicitudes
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{num_solicitudes.suma}}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- fin de numero de parametros -->
+
+                <div class="col-md-4">
+
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        Terminos de busqueda
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{num_terminos_busqueda}}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- icono de la plataforma -->
+        <div class="col-md-4 frame-center">
+           <img src="{% static 'site/img/ucuenca.jpg' %}"/>
+        </div>
     </div>
 
-    <!-- Content Row -->
-    <div class="row">
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Total de datos extraidos
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">4000</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Total Solicitudes
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">2000</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pending Requests Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Terminos de busqueda
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <hr />
     <!-- Content Row -->
 
     <div class="row">
         <!-- Area Chart -->
-        <div class="col-xl-8 col-lg-7">
-            <div class="card shadow mb-4">
+        <div class="col-xl-6 col-md-6 mb-4">
+            <div class="card shadow mb-4 h-100">
                 <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                    <div class="dropdown no-arrow">
-                        <a
-                            class="dropdown-toggle"
-                            href="#"
-                            role="button"
-                            id="dropdownMenuLink"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        >
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div
-                            class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                            aria-labelledby="dropdownMenuLink"
-                        >
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
+
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between ">
+                    <h6 class="m-0 font-weight-bold text-primary"> Datos extraidos por Plataforma</h6>
+
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="myAreaChart"></canvas>
-                    </div>
+                    <canvas id="bar-chart" width="400" height="200"></canvas>
                 </div>
+
             </div>
         </div>
 
         <!-- Pie Chart -->
-        <div class="col-xl-4 col-lg-5">
-            <div class="card shadow mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+
+
+            <div class="card shadow mb-4 h-100">
                 <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                    <div class="dropdown no-arrow">
-                        <a
-                            class="dropdown-toggle"
-                            href="#"
-                            role="button"
-                            id="dropdownMenuLink"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        >
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div
-                            class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                            aria-labelledby="dropdownMenuLink"
-                        >
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between ">
+                    <h6 class="m-0 font-weight-bold text-primary">Top Fuente de Datos</h6>
+
                 </div>
                 <!-- Card Body -->
-                <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                        <canvas id="myPieChart"></canvas>
-                    </div>
-                    <div class="mt-4 text-center small">
-                        <span class="mr-2"> <i class="fas fa-circle text-primary"></i> Direct </span>
-                        <span class="mr-2"> <i class="fas fa-circle text-success"></i> Social </span>
-                        <span class="mr-2"> <i class="fas fa-circle text-info"></i> Referral </span>
-                    </div>
+                <div class="container">
+                    <table class="table-sm table-borderless">
+                        <thead>
+                            <tr>
+                                <!-- <th scope="col">#</th> -->
+                                <td scope="col" style="width: 500px;" colspan="2" class="font-weight-bold text-xs">
+                                    Fuentes de Datos
+                                </td>
+                                <th scope="col" style="width: 500px;" class="font-weight-bold text-xs">Total Datos Extraidos </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in orden_datos %}
+                            <tr>
+                                <th scope="row"><i class="{{ row.class_icons }}"></i></th>
+                                <td >{{ row.nombre }}</td>
+                                <td> {{ row.valor }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
+
         </div>
+
+        <!-- Pie Chart -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow mb-4 h-100">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between ">
+                    <h6 class="m-0 font-weight-bold text-primary">Búsqueda Principales</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="container my-custom-scrollbar py-3 ">
+
+                    <!-- <div class="container py-4 "> -->
+                    <table class="table table-sm table-borderless">
+
+                        <tbody>
+                            {% for row in orden_terminos %}
+                            <tr>
+                                <th scope="row"><i class="fas fa-search"></i></th>
+                                <td>{{ row.nombre }}</td>
+                                <td> {{ row.numero_consulta }}</td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
     </div>
-
-
 </div>
-<!-- /.container-fluid -->
-{% endblock content %}
+    <!-- /.container-fluid -->
+    {% endblock content %} {% block extraScripts %}
+    <script src="{% static 'vendor\chart\2.8.0\js\Chart.min.js' %}"></script>
+    <!-- script para generar el grafico del dashboard -->
+    <script>
+        var ctx = document.getElementById("bar-chart");
+        var datos = JSON.parse('{{ datos|safe }}')
+        var nombres = []
+        var valores = []
+        var colores = ['#3b5998','#E1306C','#0099cc','#c4302b','#db4a39','#ffe600','#a9c6d5']
+        datos.forEach(function (elemento) {
+            nombres.push(elemento.nombre)
+            valores.push(elemento.valor)
+        });
+        // console.log(valores1.nombre())
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: nombres,
+                datasets: [{
+                    label: 'Numero de datos',
+                    backgroundColor: colores,
+                    data: valores
+                }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: 'Resultado de las diferentes plataformas'
+                }
+            }
+        });
+    </script>
+
+    {% endblock extraScripts %}

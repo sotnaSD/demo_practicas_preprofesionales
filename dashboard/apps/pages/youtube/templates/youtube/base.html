@@ -20,8 +20,7 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
 
             <h1 class="h3 mb-0 text-gray-800">Extracción Datos Youtube</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                    class="fas fa-download fa-sm text-white-50"></i> Generar Reporte</a>
+            <i class="fa fa-youtube-play d-none d-sm-inline-block " style="font-size: 55px; color:#c4302b"></i>
         </div>
 
 
@@ -66,15 +65,14 @@
                                                         Videos publicados después de:
                                                     </div>
                                                     <!-- Date Picker Input -->
-                                                    <div class="datepicker date input-group  col-sm-12 col-md-12 col-xl-7"
+                                                    <div class=" date input-group  col-sm-12 col-md-12 col-xl-7"
                                                          style="margin: 15px 0px">
-                                                        <input type="text" placeholder="Escoger una fecha"
-                                                               class="form-control" id="reservationDate" name="fecha">
-                                                        <div class="input-group-append"><span
-                                                                class="input-group-text"><i
-                                                                class="fa fa-clock-o"></i></span></div>
+                                                        <input class="form-control" type="date"
+                                                                   value="{{ twitter|date:'Y-m-d' }}"
+                                                                   id="input_fecha_inicio" name="fecha"/>
                                                     </div>
-                                                    <!-- DEnd ate Picker Input -->
+
+
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="text-xs font-weight-bold text-primary text-uppercase">
@@ -89,7 +87,7 @@
                                                 </div>
                                                 <!-- boton de generara consulta -->
                                                 <div style="padding: 15px;text-align: center">
-                                                    <button href="#" class=" btn btn-sm btn-success shadow-sm"
+                                                    <button href="#" class=" btn  btn-primary shadow-sm"
                                                             type="submit" name="videos"><i
                                                             class="fas fa-download fa-sm text-white-50"></i> Generar
                                                         Consulta
@@ -101,30 +99,18 @@
                                     </div>
                                     <!-- Card agregar parametros  -->
                                     <div class="col-xl-6 col-md-6 col-sm-12 mb-3">
-                                        <div class="card border-bottom-danger shadow h-100 py-0 ">
-                                            <form method="POST">
-                                                {% csrf_token %}
-                                                <div class="col 12">
-                                                    <h3 class="text-md-left text-black-50 pt-2">Extraer datos de
-                                                        comentarios de video de Youtube</h3>
-                                                    <h4 class="text-xs font-weight-bold text-primary text-uppercase py-2">
-                                                        Id del video</h4>
-                                                    <div class="col-sm-12 col-md-12 col-xl-7" style="margin: 15px 0px">
-                                                        <input type="text" class="form-control"
-                                                               placeholder="Ingrese el id del Video"
-                                                               name="videoId"/>
-                                                    </div>
-                                                </div>
-                                                <!-- boton de generara consulta -->
-                                                <div style="padding: 15px;text-align: center">
-                                                    <button href="#" class=" btn btn-sm btn-success shadow-sm"
-                                                            type="submit" name="comentarios"><i
-                                                            class="fas fa-download fa-sm text-white-50"></i> Generar
-                                                        Consulta
-                                                    </button>
-                                                </div>
-                                            </form>
+                                        <div class="flex-column"
+                                             style="text-align: center;display: flex;width: 80%;margin-left: 10%;margin-right: 10%;margin-top: 20%; margin-bottom: 20%">
+                                            <a href="{% url 'app:pages:youtube_resultados' %}"
+                                               class="btn  btn-dark  mb-3 mt-3" style="cursor: pointer;color: white">Ver
+                                                videos extraídos
+                                            </a>
+                                            <a href="{% url 'app:pages:youtube_resultados_comentarios' %}"
+                                               class="btn  btn-danger" style="cursor: pointer;color: white">Ver
+                                                comentarios extraídos</a>
+
                                         </div>
+
                                     </div>
                                 </div>
                             </div>

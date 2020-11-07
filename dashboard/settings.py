@@ -2,8 +2,6 @@ from pathlib import Path
 from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-APP_NAME = 'dashboard'
-APP_FLDR = str(BASE_DIR / APP_NAME)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -27,7 +25,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'dashboard.apps.core',
     'dashboard.apps.frontend',
 
     'dashboard.apps.pages.facebook',
@@ -106,16 +103,23 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
 
-USE_I18N = True
+# USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False 
 
+LANGUAGE_CODE = 'es'
+
+TIME_ZONE = 'America/Lima'
+
+USE_I18N = True
+
+DATETIME_FORMAT = '"%Y-%m-%d  %H:%M:%S'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -125,7 +129,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'dashboard/static'
 ]
 
-
 # credenciales para la extraccion de datos de twitter
 TWITTER_CONSUMER_KEY = ""
 TWITTER_CONSUMER_SECRET = ""
@@ -133,7 +136,7 @@ TWITTER_ACCESS_TOKEN =""
 TWITTER_ACCESS_TOKEN_SECRET = ""
 
 #credenciales para la extracción de datos de youtube
-YOUTUBE_DEVELOPER_KEY = "AIzaSyDUVgbJXtNtdFcPsyL7Std9GJfJAkSuvYg"
+YOUTUBE_DEVELOPER_KEY = ""
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 

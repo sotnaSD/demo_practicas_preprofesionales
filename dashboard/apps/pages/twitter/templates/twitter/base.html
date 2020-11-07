@@ -1,289 +1,234 @@
 {% extends 'site/base.html' %}
 {% load static %}
 {% block title %}
-Dashboard with Django and Bootstrap
+Twitter
 {% endblock title %}
+
+{% block    extra_styles %}
+<link href="{% static 'site\css\site.css' %}" rel="stylesheet" type="text/css" />
+{% endblock extra_styles %}
+
 {% block content %}
 <div class="container-fluid">
   <!-- Page Heading -->
-  <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Resultados Twitter</h1>
-    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-        class="fas fa-download fa-sm text-white-50"></i> Gerenar Reporte</a>
+  <div class="row py-2 mb-1">
+    <div class="col-md-8">
+      <h1 class="h3 mb-0 text-gray-800">Resultados Twitter</h1>
+      <div class="row py-4">
+        <!-- Numero de datos -->
+        <div class="col-md-6">
+          <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    Número de datos
+                  </div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    {{num_registros}}
+                  </div>
+                </div>
+                <div class="col-4">
+                  <i class="fas fa-poll fa-4x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- fin numero de datos -->
+        <!-- Numero de parametros -->
+        <div class="col-md-6">
+          <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    Número de campos
+                  </div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    {{num_parametros}}
+                  </div>
+                </div>
+                <div class="col-4">
+                  <i class="fas fa-outdent fa-4x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- fin de numero de parametros -->
+      </div>
+    </div>
+    <!-- icono de la plataforma -->
+    <div class="col-md-4 frame-center">
+      <i href="#" class="fab fa-twitter fa-7x " style="color: #0099cc;"></i>
+    </div>
   </div>
 
-  <!-- Content Row resultado totales-->
-  <div class="row">
-    <!-- Card total de datos  -->
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-primary shadow h-100 py-2">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                Número de datos
-              </div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">6000</div>
-            </div>
-            <div class="col-4">
-              <i class="fas fa-poll fa-4x "></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Card total de parametros  -->
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-primary shadow h-100 py-2">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                Número de campos
-              </div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">6</div>
-            </div>
-            <div class="col-4">
-              <i class="fas fa-outdent fa-4x"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <hr />
 
   <!-- Content Row parametros y resultados tabla -->
+
   <div class="row">
     <div class="col-xl-12 col-lg-12">
       <div class="card shadow mb-6">
         <nav>
-          <div class="nav nav-tabs card-header py-2 d-flex flex-row align-items-center " id="nav-tab" role="tablist">
-            <a class="nav-link  text-primary active" id="nav-parametros-tab" data-toggle="tab" href="#nav-parametros"
+          <div class="nav nav-tabs card-header py-2 d-flex flex-row align-items-center" id="nav-tab" role="tablist">
+            <a class="nav-link text-primary active" id="nav-parametros-tab" data-toggle="tab" href="#nav-parametros"
               role="tab" aria-controls="nav-parametros" aria-selected="true">
               Parametros
-            </a>
-            <a class="nav-link" id="nav-resultado-tab" data-toggle="tab" href="#nav-resultados" role="tab"
-              aria-controls="nav-resultados" aria-selected="false">
-              Resultados
             </a>
           </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active py-4" id="nav-parametros" role="tabpanel"
             aria-labelledby="nav-parametros-tab">
-
-            <div class="card-body py-0">
-              <div class="row">
-                <!-- Cards para seleccionar la fechas  -->
-                <div class="col-xl-4 col-md-6 ">
-                  <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                        <div class="col mr-2 ">
-                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Filtrar por Fechas
-                          </div>
-
-                          <div
-                            class=" card-body form-group row text-xs font-weight-bold text-primary text-uppercase mb-0">
-                            <label for="example-date-input" class="col-4 col-form-label">Fecha Inicio</label>
-                            <div class="col-8">
-                              <input class="form-control" type="date" value="2020-01-01" id="example-date-input">
+            <form method="POST">
+              {% csrf_token %}
+              <div class="card-body py-0">
+                <div class="row">
+                  <!-- Cards para seleccionar la fechas  -->
+                  <div class="col-xl-4 col-md-6">
+                    <div class="card border-bottom-success shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                              Filtrar por Fechas
                             </div>
-                          </div>
-
-                          <div
-                            class=" card-body form-group row text-xs font-weight-bold text-primary text-uppercase mb-1 py-0">
-                            <label for="example-date-input" class="col-4 col-form-label">Fecha Fin</label>
-                            <div class="col-8">
-                              <input class="form-control" type="date" value="2020-01-01" id="example-date-input">
+                            <!-- fecha incio -->
+                            <div
+                              class="card-body form-group row text-xs font-weight-bold text-primary text-uppercase mb-0">
+                              <label for="example-date-input" class="col-4 col-form-label">Fecha Inicio</label>
+                              <div class="col-8">
+                                <input
+                                  class="form-control {% if formTweets.input_fecha_inicio.errors %} is-invalid {% endif %}"
+                                  type="date"
+                                  value="{% if formTweets.errors %}{{ formTweets.input_fecha_inicio.value }}{% else %}{{ placement.date|date:'Y-m-d' }}{% endif %}"
+                                  id="input_fecha_inicio" name="input_fecha_inicio" />
+                                <div class="invalid-feedback">
+                                  {% for error in formTweets.input_fecha_inicio.errors %}
+                                  {{ error }}
+                                  {% endfor%}
+                                </div>
+                              </div>
                             </div>
+                            <!-- fin fecha fin -->
+
+                            <!-- fecha fin -->
+                            <div
+                              class="card-body form-group row text-xs font-weight-bold text-primary text-uppercase mb-1 py-0">
+                              <label for="example-date-input" class="col-4 col-form-label">Fecha Fin</label>
+                              <div class="col-8">
+
+                                <input
+                                  class="form-control {% if formTweets.input_fecha_fin.errors %} is-invalid {% endif %}"
+                                  type="date"
+                                  value="{% if formTweets.errors %}{{ formTweets.input_fecha_fin.value }}{% else %}{{ placement.date|date:'Y-m-d' }}{% endif %}"
+                                  id="input_fecha_fin" name="input_fecha_fin" />
+
+                                <div class="invalid-feedback">
+                                  {% for error in formTweets.input_fecha_fin.errors %}
+                                  {{ error }}
+                                  {% endfor%}
+                                </div>
+                              </div>
+                            </div>
+                            <!-- fin fecha fin -->
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <!-- Card para seleccionar el sector que se desea consultar-->
-                <div class="col-xl-4 col-md-6 ">
-                  <div class="card border-left-secondary h-100 py-2">
-                    <div class="card-body">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        Palabras clave.
-                      </div>
-                      <div class="input-group mb-3">
-                        <input type="text" placeholder="Ejm: Textil, Ropa, ..." class="form-control" aria-label="Small"
-                          aria-describedby="inputGroup-sizing-sm">
-                      </div>
-
-                      <hr/>
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        Ubicación
-                      </div>
-                      <div class="input-group mb-3">
-                        <input type="text" placeholder="Ejm: Textil, Ropa, ..." class="form-control" aria-label="Small"
-                          aria-describedby="inputGroup-sizing-sm">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="col-xl-4 col-md-6 ">
-                  <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                        <div class="col mr-2 ">
-                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Seleccione los Campos que desee
-                          </div>
-
-                          <div class="card-body form-group row text-xs font-weight-bold text-secondary mb-0 py-1">
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="consulted_at">
-                              <label class="form-check-label" for="consulted_at">Fecha Consulta</label>
-                            </div>
-
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="created_at">
-                              <label class="form-check-label" for="created_at">Fecha Publicación</label>
-                            </div>
-
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="isVerified">
-                              <label class="form-check-label" for="isVerified" data-toggle="tooltip"
-                                data-placement="top" title="Boolean que indica si es un usuario verificado">Usuario
-                                verficado</label>
-                            </div>
-
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="userName">
-                              <label class="form-check-label" for="userName">Nombre Usuario</label>
-                            </div>
-
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="tweetLocation">
-                              <label class="form-check-label" for="tweetLocation">Ubicación Usuario</label>
-                            </div>
-
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="userFollowers_count">
-                              <label class="form-check-label" for="userFollowers_count">Número Seguidores</label>
-                            </div>
-
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="userFriends_count">
-                              <label class="form-check-label" for="userFriends_count">Numero de Amigos </label>
-                            </div>
-
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="userFacourites_count">
-                              <label class="form-check-label" for="userFacourites_count" data-toggle="tooltip"
-                                data-placement="top" title="Número de 'Me gusta' del usuario">Número de "Me
-                                gusta"</label>
-                            </div>
-
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="userStatuses_count">
-                              <label class="form-check-label" for="userStatuses_count" data-toggle="tooltip"
-                                data-placement="top" title="Número de publicaciones del usuarios">Número de estados
-                              </label>
-                            </div>
-
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="tweet_id">
-                              <label class="form-check-label" for="tweet_id">Id Tweet</label>
-                            </div>
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="tweet">
-                              <label class="form-check-label" for="tweet" data-toggle="tooltip"
-                                data-placement="top" title="Descripción de tweet">Texto tweet</label>
-                            </div>
-
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="tweetRetweet_count">
-                              <label class="form-check-label" for="tweetRetweet_count" data-toggle="tooltip"
-                                data-placement="top" title="Número retweets del tweet">Número retweets</label>
-                            </div>
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="tweetFavorite_count">
-                              <label class="form-check-label" for="tweetFavorite_count" data-toggle="tooltip"
-                                data-placement="top" title="Número de 'Me gusta' del tweet">Número "Me gusta"</label>
-                            </div>
-
-                            <div class="card-body form-check col-6 col-form-label py-2 mb-0">
-                              <input class="form-check-input" type="checkbox" value="" id="tweetFavorite_count">
-                              <label class="form-check-label" for="tweetFavorite_count" data-toggle="tooltip"
-                                data-placement="top" title="Número de 'Me gusta' del tweet">Todo</label>
-                            </div>
-                          </div>
-
+                  <!-- Card para seleccionar el sector y ubicacion que se desea consultar-->
+                  <div class="col-xl-4 col-md-6">
+                    <div class="card border-bottom-success h-100 py-2">
+                      <!-- Palabras claves -->
+                      <div class="card-body">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          Palabras clave.
                         </div>
-                      </div>
+                        <div class="input-group mb-3">
+                          <input type="text" placeholder="Ejm: Textil, Ropa, ..."
+                            class="form-control {% if formTweets.input_palabras_claves.errors %} is-invalid {% endif %}"
+                            aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="input_palabras_claves"
+                            value="{% if formTweets.errors %}{{ formTweets.input_palabras_claves.value }}{% endif %}" />
+                          <div class="invalid-feedback">
+                            {% for error in formTweets.input_palabras_claves.errors %}
+                            {{ error }}
+                            {% endfor%}
+                          </div>
+                        </div>
+                        <!--Fin palabras claves  -->
+                        <hr />
+                        <!-- Ubicacion -->
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          Ubicación
+                        </div>
+                        <div class="input-group mb-3">
+                          <input type="text" placeholder="Ejm: Ecuador, Colombia, ..."
+                            class="form-control {% if formTweets.input_ubicacion.errors %} is-invalid {% endif %}"
+                            aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="input_ubicacion"
+                            name="input_ubicacion"
+                            value="{% if formTweets.errors %}{{ formTweets.input_ubicacion.value }}{% endif %}" />
+                          <div class="invalid-feedback">
+                            {% for error in formTweets.input_ubicacion.errors %}
+                            {{ error }}
+                            {% endfor%}
+                          </div>
+                        </div>
+                        <!-- fin ubicacion -->
+                        </div>
+                    </div>
+                  </div>
 
+
+                  <!-- Card para seleccionar el sector y ubicacion que se desea consultar-->
+                  <div class="col-xl-4 col-md-6">
+                    <div class="card border-bottom-success h-100 py-2">
+                      <!-- idioma de busqueda -->
+                      <div class="card-body">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          Idioma de búsqueda
+                        </div>
+                        <hr/>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="input_idioma" id="input_idioma1" value="es" checked>
+                          <label class="form-check-label" for="input_idioma1">
+                            Español
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="input_idioma" id="input_idioma2" value="en">
+                          <label class="form-check-label" for="input_idioma2">
+                            Ingles
+                          </label>
+                        </div>
+                        <!--Fin idioma  -->
+                        <hr />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- boton de generara consulta -->
-            <div class="d-sm-flex align-items-center justify-content-center py-3  mb-1">
-              <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
-                  class="fas fa-download fa-sm text-white-50"></i> Generar Consulta</a>
-            </div>
-          </div>
-          <div class="tab-pane fade" id="nav-resultados" role="tabpanel" aria-labelledby="nav-resultados-tab">
-            <!-- tabla de resultados -->
-
-            <div class="container-fluid py-4">
-              <div class="card shadow mb-4">
-
-                <!-- table Heading -->
-                <div class="card-header py-3 d-sm-flex align-items-center justify-content-between mb-4">
-                  <h6 class="m-0 font-weight-bold text-primary">Resutaldo de twitter</h6>
-                  <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                      class="fas fa-download fa-sm text-white-50"></i> Exportar datos</a>
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-bordered table-stripe table-hover" id="dataTable" width="100%"
-                      cellspacing="0">
-                      {% for row in data %}
-                      {% if forloop.first %}
-                      <thead>
-                        <tr>
-                          {% for col in row  %}<th>{{ col }}</th>{% endfor %}
-                        </tr>
-                      </thead>
-                      <tfoot>
-                        <tr>
-                          {% for col in row  %}<th>{{ col }}</th>{% endfor %}
-                        </tr>
-                      </tfoot>
-
-                      <tbody>
-                        {% endif %}
-
-                        <tr>
-                          {% for col in row  %}<td>{{ col }}</td>{% endfor %}
-                        </tr>
-                        {% if forloop.last %}
-                      </tbody>
-                      {% endif %}
-                      {% endfor %}
-                    </table>
-                  </div>
-                </div>
+              <!-- botones de generara consulta e ir a los resultados -->
+              <div class="d-sm-flex align-items-center justify-content-center py-3 mb-1">
+                <button href="#" type="submit" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm ">
+                  Generar Consulta
+                </button>
+                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-3" style="padding-left: 3px;"
+                  href="{% url 'app:pages:twitter_resultados' %}">
+                  Ver Datos
+                </a>
               </div>
-
-            </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </div>
 {% endblock content %}
