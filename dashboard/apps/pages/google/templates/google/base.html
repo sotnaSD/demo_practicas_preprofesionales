@@ -19,7 +19,7 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
 
-            <h1 class="h3 mb-0 text-gray-800">Tendencias de Google en el Ecuador</h1>
+            <h1 class="h3 mb-0 text-gray-800">Tendencias de Google</h1>
             <i class="fa fa-google d-none d-sm-inline-block " style="font-size: 55px; color: #F4B400;"></i>
         </div>
         <div style="text-align: center" id="busquedaWrapper">
@@ -36,14 +36,18 @@
                                 <div class="col-sm-12 col-md-12 col-xl-12 mb-3 bg-light rounded rounded-pill shadow-sm"
                                      style="margin: 0px 0px">
                                     <input type="text" class="form-control border-0 bg-light"
-                                           placeholder="Escriba el primer término de búsqueda o tema"
+                                           placeholder="Escriba el primer término de búsqueda (Ejm: textil,tela,algodon)"
                                            id="terminoBusqueda" name="palabraClave"/>
                                 </div>
+                                <h4 class="text-xs font-weight-bold text-primary text-uppercase py-2"
+                                    style="text-align: left">Región en donde se realizará la búsqueda</h4>
                                 <div class="col-sm-12 col-md-12 col-xl-12 mb-3 bg-light rounded rounded-pill shadow-sm"
                                      style="margin: 0px 0px">
+
+
                                     <input type="text" class="form-control border-0 bg-light"
-                                           placeholder="Escriba el segundo término de búsqueda o tema"
-                                           id="terminoBusqueda2" name="palabraClave2"/>
+                                           placeholder="Escriba la región (Ejm: EC para Ecuador)"
+                                           id="region" name="region"/>
                                 </div>
                                 <button id="button-addon1" type="submit" class="btn btn-link text-primary"
                                         style="font-size: 20px"><i
@@ -59,6 +63,14 @@
             </div>
 
         </div>
+        <div class="container mb-3" style="text-align: center;">
+            <div class="row mr-4">
+                <div class="row" id="legend">
+                </div>
+
+            </div>
+        </div>
+
         <div class="col-xl-10 col-lg-10 container invisible" id="tiempoContainer">
             <div class="card shadow mb-4">
 
@@ -66,7 +78,10 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary" id='tituloTiempo'>Interés a lo largo del
                         tiempo</h6>
+
                     <div class="dropdown no-arrow">
+                        <a class=" text-primary" id="buttonDescargar" style="cursor: pointer"
+                           title="Descargar como csv"><i class="fa-fw fas fa-download"></i></a>
                         <a
                                 class="dropdown-toggle"
                                 href="#"
@@ -76,7 +91,8 @@
                                 aria-haspopup="true"
                                 aria-expanded="false"
                         >
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-primary"></i>
+
                         </a>
                         <div
                                 class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
@@ -108,7 +124,6 @@
         </div>
         <div class="row">
             <!-- Area Chart -->
-
 
             <!-- Pie Chart -->
             <div class="container-fluid mr-5 ml-5 row invisible" id="regionContainer">
@@ -153,35 +168,53 @@
             Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
             Chart.defaults.global.defaultFontColor = '#858796';
             // catch the form's submit event
+            var fecha = "";
             $('#button-addon1').click(function () {
                 // create an AJAX call
                 var palabraClave = $('#terminoBusqueda').val();
-                var palabraClave2 = $('#terminoBusqueda2').val();
-                console.log(palabraClave);
+                var region = $('#region').val();
+                var nombres = palabraClave.split(",");
+                var colores = ["#4285F4", "#DB4437", "#F4B400", "#0F9D58"]
+                for (i = 0; i < nombres.length; i++) {
+                    if (i > 3) {
+                        colores.push("#" + ((1 << 10) * Math.random() | 0).toString(16))
+                    }
+                }
+
                 $.ajax({
                     data: {
-                        'palabraClave': palabraClave,
-                        'palabraClave2': palabraClave2,
+                        'palabraClaves': palabraClave,
+                        'region': region,
                         'fecha': 'today 12-m'
                     }, // get the form data
                     url: "{% url 'app:pages:obtener-trends' %}",
                     // on success
                     success: function (response) {
+                        fecha = "today 12-m"
                         $('#regionContainer').removeClass('invisible');
                         $('#tiempoContainer').removeClass('invisible');
                         $('#12meses').addClass('text-info');
                         $('#tituloTiempo').text('Interés a lo largo del tiempo (Ultimos 12 meses)')
-                        $('#region-titulo').text('Interés por región: ' + palabraClave)
-                        $('#region-titulo2').text('Interés por región: ' + palabraClave2)
-                        $('#variables').remove(); // this is my <canvas> element
+                        {#$('#region-titulo').text('Interés por región: ' + palabraClave)#}
+                        {#$('#region-titulo2').text('Interés por región: ' + palabraClave2)#}
+                        $('#variables').remove();
+                        $('#legend').empty();
+                        for (var i = 0; i < nombres.length; i++) {
+                            $('#legend').append('<i id=\"legendElement\" class=\"fas fa-circle  ml-5  mr-2\"' + 'style=\"color:' + colores[i] + ';\"' + '>' + nombres[i] + '</i>')
+
+                        }
+
                         $('#busquedaWrapper').after(
-                            '<div class="container mb-3" id="variables" style="text-align: center;"><div style="color:rgba(78, 115, 223, 1);"  class="row mr-4"><div class="row"><i class="fas fa-circle text-primary mr-2"></i><h4 id="nombrePalabra1"></div><div class="row"><i class="fas fa-circle text-warning mr-2 ml-5"></i><h4 id="nombrePalabra2" style="color:rgba(244,160,0,1);"></div></div></div>'
                         )
-                        $('#nombrePalabra1').text($('#terminoBusqueda').val())
-                        $('#nombrePalabra2').text($('#terminoBusqueda2').val())
-                        graficaInteres(response.fechas, response.trend, response.trend2, $('#terminoBusqueda').val(), $('#terminoBusqueda2').val())
-                        graficarInteresRegion(response.label1, response.interesRegion, "rgba(78, 115, 223, 1)")
-                        graficarInteresRegion2(response.label2, response.interesRegion2, "rgba(244,160,0,1)")
+                        console.log(response.regiones)
+                        var jsonObject = JSON.parse(response.trends)
+                        //for (k in jsonObject) {
+                        //   console.log(Object.values(jsonObject[k]))
+                        //}
+                        graficaInteres(response.fechas, jsonObject, nombres, colores)
+                        {#graficarInteresRegion(response.label1, response.interesRegion, "rgba(78, 115, 223, 1)")#}
+                        {#graficarInteresRegion2(response.label2, response.interesRegion2, "rgba(244,160,0,1)")#}
+
 
                     },
                     // on error
@@ -193,21 +226,69 @@
 
                 return false;
             });
+
+            {#para descargar los datos #}
+            $('#buttonDescargar').click(function () {
+                // create an AJAX call
+                var palabraClave = $('#terminoBusqueda').val();
+                var region = $('#region').val();
+                $.ajax({
+                    data: {
+                        'palabraClaves': palabraClave,
+                        'region': region,
+                        'fecha': fecha
+                    },
+                    url: "{% url 'app:pages:exportar-trends' %}",
+                    // on success
+                    success: function (response) {
+                        var blob = new Blob([response], {type: 'application/ms-excel'});
+                        var downloadUrl = URL.createObjectURL(blob)
+                        var a = document.createElement("a");
+                        a.href = downloadUrl;
+                        var currentdate = new Date();
+                        a.download = "google_trends_" + currentdate.getDate() + "/"
+                            + (currentdate.getMonth() + 1) + "/" + +currentdate.getFullYear() + "@"
+                            + currentdate.getHours() + ":"
+                            + currentdate.getMinutes() + ":"
+                            + currentdate.getSeconds() + "region:" + $('#region').val() + ".csv";
+                        document.body.appendChild(a);
+                        a.click();
+                    },
+
+                    // on error
+                    error: function (response) {
+                        // alert the error if any error occured
+                        console.log(response.responseJSON.errors)
+                    }
+                });
+
+                return false;
+            });
+
+
             $('#1dia').click(function () {
                 // create an AJAX call
                 var palabraClave = $('#terminoBusqueda').val();
-                var palabraClave2 = $('#terminoBusqueda2').val();
-                console.log(palabraClave);
+                var region = $('#region').val();
+                var nombres = palabraClave.split(",");
+                var colores = ["#4285F4", "#DB4437", "#F4B400", "#0F9D58"]
+                for (i = 0; i < nombres.length; i++) {
+                    if (i > 3) {
+                        colores.push("#" + ((1 << 10) * Math.random() | 0).toString(16))
+                    }
+                }
+
                 $.ajax({
                     data: {
-                        'palabraClave': palabraClave,
-                        'palabraClave2': palabraClave2,
+                        'palabraClaves': palabraClave,
+                        'region': region,
                         'fecha': 'now 1-d'
                     }, // get the form data
                     url: "{% url 'app:pages:obtener-trends' %}",
                     // on success
                     success: function (response) {
-                        console.log(response.interesRegion)
+                        fecha = "now 1-d"
+
                         $('#12meses').removeClass('text-info');
                         $('#3meses').removeClass('text-info');
                         $('#1mes').removeClass('text-info');
@@ -216,17 +297,13 @@
                         $('#2004').removeClass('text-info');
                         $('#1dia').addClass('text-info');
                         $('#tituloTiempo').text('Interés a lo largo del tiempo (Día actual)')
-                        $('#region-titulo').text('Interés por región: ' + palabraClave)
-                        $('#region-titulo2').text('Interés por región: ' + palabraClave2)
-                        $('#variables').remove();
-                        $('#busquedaWrapper').after(
-                            '<div class="container mb-3" id="variables" style="text-align: center;"><div style="color:rgba(78, 115, 223, 1);"  class="row mr-4"><div class="row"><i class="fas fa-circle text-primary mr-2"></i><h4 id="nombrePalabra1"></div><div class="row"><i class="fas fa-circle text-warning mr-2 ml-5"></i><h4 id="nombrePalabra2" style="color:rgba(244,160,0,1);"></div></div></div>'
-                        )
-                        $('#nombrePalabra1').text($('#terminoBusqueda').val())
-                        $('#nombrePalabra2').text($('#terminoBusqueda2').val())
-                        graficaInteres(response.fechas, response.trend, response.trend2, $('#terminoBusqueda').val(), $('#terminoBusqueda2').val())
-                        graficarInteresRegion(response.label1, response.interesRegion, "rgba(78, 115, 223, 1)")
-                        graficarInteresRegion2(response.label2, response.interesRegion2, "rgba(244,160,0,1)")
+                        $('#legend').empty();
+                        for (var i = 0; i < nombres.length; i++) {
+                            $('#legend').append('<i  class=\"fas fa-circle  ml-5  mr-2\"' + 'style=\"color:' + colores[i] + ';\"' + '>' + nombres[i] + '</i>')
+                        }
+                        var jsonObject = JSON.parse(response.trends);
+
+                        graficaInteres(response.fechas, jsonObject, nombres, colores)
 
                     },
                     // on error
@@ -418,51 +495,6 @@
 
                 return false;
             });
-             $('#12meses').click(function () {
-                // create an AJAX call
-                var palabraClave = $('#terminoBusqueda').val();
-                var palabraClave2 = $('#terminoBusqueda2').val();
-                console.log(palabraClave);
-                $.ajax({
-                    data: {
-                        'palabraClave': palabraClave,
-                        'palabraClave2': palabraClave2,
-                        'fecha': 'today 12-m'
-                    }, // get the form data
-                    url: "{% url 'app:pages:obtener-trends' %}",
-                    // on success
-                    success: function (response) {
-                        console.log(response.interesRegion)
-                        $('#12meses').addClass('text-info');
-                        $('#3meses').removeClass('text-info');
-                        $('#1mes').removeClass('text-info');
-                        $('#1semana').removeClass('text-info');
-                        $('#5anios').removeClass('text-info');
-                        $('#2004').removeClass('text-info');
-                        $('#1dia').removeClass('text-info');
-                        $('#tituloTiempo').text('Interés a lo largo del tiempo (Ultimos 5 años)')
-                        $('#region-titulo').text('Interés por región: ' + palabraClave)
-                        $('#region-titulo2').text('Interés por región: ' + palabraClave2)
-                        $('#variables').remove();
-                        $('#busquedaWrapper').after(
-                            '<div class="container mb-3" id="variables" style="text-align: center;"><div style="color:rgba(78, 115, 223, 1);"  class="row mr-4"><div class="row"><i class="fas fa-circle text-primary mr-2"></i><h4 id="nombrePalabra1"></div><div class="row"><i class="fas fa-circle text-warning mr-2 ml-5"></i><h4 id="nombrePalabra2" style="color:rgba(244,160,0,1);"></div></div></div>'
-                        )
-                        $('#nombrePalabra1').text($('#terminoBusqueda').val())
-                        $('#nombrePalabra2').text($('#terminoBusqueda2').val())
-                        graficaInteres(response.fechas, response.trend, response.trend2, $('#terminoBusqueda').val(), $('#terminoBusqueda2').val())
-                        graficarInteresRegion(response.label1, response.interesRegion, "rgba(78, 115, 223, 1)")
-                        graficarInteresRegion2(response.label2, response.interesRegion2, "rgba(244,160,0,1)")
-
-                    },
-                    // on error
-                    error: function (response) {
-                        // alert the error if any error occured
-                        console.log(response.responseJSON.errors)
-                    }
-                });
-
-                return false;
-            });
         })
 
 
@@ -491,44 +523,16 @@
             return s.join(dec);
         }
 
-        function graficaInteres(labels, data, data2, label, label2) {
+        function graficaInteres(labels, data, nombres, colores) {
             // Area Chart Example
             $('#myAreaChartGoogle').remove(); // this is my <canvas> element
             $('#chart-container').append('<canvas id="myAreaChartGoogle"><canvas>');
-            var ctx = document.getElementById("myAreaChartGoogle");
-            var myLineChart = new Chart(ctx, {
+            var LINECHART = $('#myAreaChartGoogle');
+            window.myLineChart = new Chart(LINECHART, {
                 type: 'line',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: label,
-                        lineTension: 0.3,
-                        backgroundColor: "rgba(78, 115, 223, 0.05)",
-                        borderColor: "rgba(78, 115, 223, 1)",
-                        pointRadius: 3,
-                        pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                        pointBorderColor: "rgba(78, 115, 223, 1)",
-                        pointHoverRadius: 3,
-                        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                        pointHitRadius: 10,
-                        pointBorderWidth: 2,
-                        data: data,
-                    }, {
-                        label: label2,
-                        lineTension: 0.3,
-                        backgroundColor: "rgba(244,160,0,0.05)",
-                        borderColor: "rgba(244,160,0,1)",
-                        pointRadius: 3,
-                        pointBackgroundColor: "rgba(244,160,0,1)",
-                        pointBorderColor: "rgba(244,160,0,1)",
-                        pointHoverRadius: 3,
-                        pointHoverBackgroundColor: "rgba(244,160,0,1)",
-                        pointHoverBorderColor: "rgba(244,160,0,1)",
-                        pointHitRadius: 10,
-                        pointBorderWidth: 2,
-                        data: data2,
-                    }],
+                    datasets: [],
                 },
                 options: {
                     legend: {
@@ -612,6 +616,31 @@
                     }
                 }
             });
+            var i = 0
+            for (trends in data) {
+                myLineChart.data.datasets.push({
+                    label: nombres[i],
+
+                    lineTension: 0.3,
+                    backgroundColor: "transparent",
+                    borderColor: colores[i],
+                    pointBorderColor: colores[i],
+                    pointHoverBackgroundColor: colores[i],
+                    pointBackgroundColor: colores[i],
+                    pointBorderWidth: 2,
+                    pointHoverRadius: 3,
+                    pointHoverBorderColor: colores[i],
+
+                    pointRadius: 3,
+                    pointHitRadius: 10,
+                    data: Object.values(data[trends]),
+                    spanGaps: false
+                });
+                i++;
+            }
+            //Use the window object to update myLineChart
+            window.myLineChart.update();
+
         }
 
         function graficarInteresRegion(labels, data, color) {
