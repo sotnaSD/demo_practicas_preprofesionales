@@ -11,6 +11,10 @@ from .utils import getTrendsMercadoLibre
 from .models import MercadoLibre
 from ...frontend.models import TerminoBusqueda
 
+#importacion de modulos 
+from datetime import datetime
+import django_excel as excel
+
 
 # Vista para la app frontend
 class IndexView(generic.View):
@@ -18,8 +22,16 @@ class IndexView(generic.View):
     IndexView:
     """
     def get(self, *args, **kwargs):
+        datos = MercadoLibre.objects.all()
+        name_columns = MercadoLibre._meta.fields
+        # parametros para el template tabla.html
+        context = {
+            'num_registros': datos.count(),
+            'num_parametros': len(name_columns),
+            'paises': getPaisMercadoLibre()
+        }
         # return template con paises
-        return render(self.request, 'mercadolibre/base.html',{'paises': getPaisMercadoLibre()})
+        return render(self.request, 'mercadolibre/base.html',context)
 
     def post(self, *args, **kwargs):
         # condicional para el ajax del combo box
