@@ -26,7 +26,7 @@ urlpatterns = [
     path('youtube-resultados-comentarios/exportar/', youtubeViews.exportarComentarios,
          name='youtube-comentarios-exportar'),
     path('obtener-trends', googleViews.obtenerTrends, name='obtener-trends'),
-    path('obtener-trends-region', googleViews.obtenerTrendsRegion, name='obtener-trends-region'),
+    path('obtener-trends/exportar/', googleViews.exportarTrends, name='exportar-trends'),
     path('olx', olxViews.IndexView.as_view(), name='olx'),
     path('google', googleViews.IndexView.as_view(), name='google'),
     path('mercadolibre', mercadoLibreViews.IndexView.as_view(), name='mercadolibre'),
