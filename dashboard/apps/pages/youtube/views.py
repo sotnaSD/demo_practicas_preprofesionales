@@ -160,9 +160,6 @@ def youtube_search(query, region, publishedAfter):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=YOUTUBE_DEVELOPER_KEY)
     search_response = youtube.search().list(q=query, part="id,snippet", regionCode=region,
                                             publishedAfter=publishedAfter).execute()
-    videos = []
-    channels = []
-    playlists = []
     fecha_consulta = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M")
     for search_result in search_response.get("items", []):
         if search_result["id"]["kind"] == "youtube#video":
@@ -188,7 +185,6 @@ def youtube_search(query, region, publishedAfter):
                 else:
                     commentCount = video_result["statistics"]["commentCount"]
             # guardar los datos
-
                 video = YoutubeVideo.objects.filter(videoId=videoId)
                 print(len(video))
                 if len(video) == 0:
@@ -220,18 +216,22 @@ class YoutubeParametros(View):
                 fecha = str(videosForm.cleaned_data.get('fecha')).split()[0] + 'T00:00:00Z'
                 region = videosForm.cleaned_data.get('region')
                 #hacemos la consulta y guardamos los datos
-                youtube_search(query, region, fecha)
-                for i in query:
-                    # comparacion de si exite algun temino solo actualiza el numero de consulta
-                    if TerminoBusqueda.objects.filter(nombre=i).exists():
-                        datos = TerminoBusqueda.objects.filter(nombre=i)
-                        TerminoBusqueda.objects.filter(nombre=i).update(
-                            numero_consulta=datos[0].numero_consulta + 1)
-                    else:
-                        terminos_busqueda = TerminoBusqueda(
-                            nombre=i, numero_consulta=1)
-                        terminos_busqueda.save()
-                return redirect('app:pages:youtube_resultados')
+                try:
+                    youtube_search(query, region, fecha)
+                    for i in query:
+                        # comparacion de si exite algun temino solo actualiza el numero de consulta
+                        if TerminoBusqueda.objects.filter(nombre=i).exists():
+                            datos = TerminoBusqueda.objects.filter(nombre=i)
+                            TerminoBusqueda.objects.filter(nombre=i).update(
+                                numero_consulta=datos[0].numero_consulta + 1)
+                        else:
+                            terminos_busqueda = TerminoBusqueda(
+                                nombre=i, numero_consulta=1)
+                            terminos_busqueda.save()
+                    return redirect('app:pages:youtube_resultados')
+                except:
+                    messages.info(self.request, "Error al extraer los datos, revise que los parámetros son los correctos")
+                    return redirect('app:pages:youtube')
             else:
                 messages.info(self.request, "Error al procesar los parámetros de la solicitud")
                 return redirect('app:pages:youtube')

@@ -7,6 +7,9 @@ import datetime
 pytrend = TrendReq(hl='es-EC', tz=360)
 from django.views.generic import View
 import django_excel as excel
+from django.contrib import messages
+from django.shortcuts import  redirect
+from ...frontend.models import TerminoBusqueda
 # Create your views here.
 class IndexView(generic.TemplateView):
     """
@@ -46,7 +49,18 @@ def obtenerTrends(request):
         'regiones': regiones.tolist(),
         'regiones_trends': trendsRegiones.to_json(),
     }
+    for i in query:
+        # comparacion de si exite algun temino solo actualiza el numero de consulta
+        if TerminoBusqueda.objects.filter(nombre=i).exists():
+            datos = TerminoBusqueda.objects.filter(nombre=i)
+            TerminoBusqueda.objects.filter(nombre=i).update(
+                numero_consulta=datos[0].numero_consulta + 1)
+        else:
+            terminos_busqueda = TerminoBusqueda(
+                nombre=i, numero_consulta=1)
+            terminos_busqueda.save()
     return JsonResponse(response)
+
 
 
 #para exportar los datos de google trends
@@ -78,5 +92,4 @@ def exportarTrends(request):
     sheet = excel.pe.Sheet(export)
     # se devuelve como "Response" el archivo para que se pueda "guardar"
     # en el navegador, es decir como hacer un "Download"
-    print("asasas")
     return excel.make_response(sheet, "csv", file_name= 'google_trends_data'+(datetime.datetime.now().strftime("%Y-%m-%d-%H-%M"))+'.csv')
