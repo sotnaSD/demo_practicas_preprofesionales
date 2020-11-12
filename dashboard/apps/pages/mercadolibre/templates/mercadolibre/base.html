@@ -1,217 +1,225 @@
 {% extends 'site/base.html' %}
 {% load static %}
 {% block title %}
-Mercado Libre
+    Mercado Libre - Tendencias
 {% endblock title %}
 
 {% block    extra_styles %}
-<link href="{% static 'site/css/site.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'site/css/site.css' %}" rel="stylesheet" type="text/css"/>
 {% endblock extra_styles %}
 
 
 {% block content %}
-<div class="container-fluid">
-  <div class="row py-2 mb-1">
-    <div class="col-md-8">
-      <h1 class="h3 mb-0 text-gray-800">Resultados Mercado Libre</h1>
-      <div class="row py-4">
-        <div class="col-md-6">
+    <div class="container-fluid">
+        <div class="row py-2 mb-1">
+            <div class="col-md-8">
+                <h1 class="h3 mb-0 text-gray-800">Resultados Mercado Libre</h1>
+                <div class="row py-4">
+                    <div class="col-md-6">
 
 
-          <div class="card border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                    Número de datos
-                  </div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    {{num_registros}}
-                  </div>
-                </div>
-                <div class="col-4">
-                  <i class="fas fa-poll fa-4x"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-md-6">
-
-          <div class="card border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                    Número de campos
-                  </div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    {{num_parametros}}
-                  </div>
-                </div>
-                <div class="col-4">
-                  <i class="fas fa-outdent fa-4x"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 frame-center">
-      
-      <i href="#" class="fas fa-shopping-cart fa-7x " style="color: rgb(235, 235, 23);"></i>
-    </div>
-  </div>
-
-  <hr />
-
-  <!-- Content Row parametros y resultados tabla -->
-
-  <div class="row">
-    <div class="col-xl-12 col-lg-12">
-      <div class="card shadow mb-6">
-        <nav>
-          <div class="nav nav-tabs card-header py-2 d-flex flex-row align-items-center" id="nav-tab" role="tablist">
-            <a class="nav-link text-primary active" id="nav-parametros-tab" data-toggle="tab" href="#nav-parametros"
-              role="tab" aria-controls="nav-parametros" aria-selected="true">
-              Parametros
-            </a>
-          </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent">
-          <div class="tab-pane fade show active py-4" id="nav-parametros" role="tabpanel"
-            aria-labelledby="nav-parametros-tab">
-            <form method="POST">
-              {% csrf_token %}
-              <div class="card-body py-0">
-                <div class="row">
-                  <!-- Cards para seleccionar la fechas  -->
-                  <div class="col-xl-4 col-md-6">
-                    <div class="card border-left-primary shadow h-100 py-2">
-                      <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                              Campos
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Número de datos
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ num_registros }}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <i class="fas fa-poll fa-4x"></i>
+                                    </div>
+                                </div>
                             </div>
-                            {# Paises disponibles #}
-                            <div
-                              class="card-body form-group row text-xs font-weight-bold text-primary text-uppercase mb-0">
-                              <label for="example-date-input" class="col-4 col-form-label">Paises</label>
-                              <div class="col-8">
-                                <select
-                                  class="custom-select custom-select-sm mb-3 {% if formMercadoLibre.input_pais.errors %} is-invalid {% endif %}"
-                                  id="input_pais" name="input_pais">
-                                  <option selected>Seleccione un Pais</option>
-                                  {% for i, pais in paises.items %}
-                                  <option value="{{ i  }}-{{ pais }}">{{ pais }}</option>
-                                  {% endfor %}
-
-
-                                </select>
-
-                              </div>
-                            </div>
-
-                            {# categoria de producto #}
-                            <div
-                              class="card-body form-group row text-xs font-weight-bold text-primary text-uppercase mb-1 py-0">
-                              <label for="example-date-input" class="col-4 col-form-label">Categoria de producto</label>
-                              <div class="col-8">
-                                <select
-                                  class="custom-select custom-select-sm mb-3 {% if formMercadoLibre.input_categoria.errors %} is-invalid {% endif %}"
-                                  id="input_categoria" name="input_categoria">
-                                  <option selected>
-                                    Seleccione una categoria
-                                  </option>
-
-                                </select>
-
-                              </div>
-                            </div>
-                          </div>
                         </div>
-                      </div>
+
                     </div>
-                  </div>
+                    <div class="col-md-6">
+
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Número de campos
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ num_parametros }}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <i class="fas fa-outdent fa-4x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-              </div>
+            </div>
+            <div class="col-md-4 frame-center">
 
-              <!-- boton de generara consulta -->
-              <div class="d-sm-flex align-items-center justify-content-center py-3 mb-1">
-                <button href="#" type="submit" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
-                  <i class="fas fa-download fa-sm text-white-50"></i> Generar Consulta
-                </button>
-                
-                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-3" href="{% url 'app:pages:mercadolibre_resultados' %}">
-                  Ver Datos
-                </a>
-              </div>
-            </form>
-          </div>
+                <i href="#" class="fas fa-shopping-cart fa-7x " style="color: rgb(235, 235, 23);"></i>
+            </div>
         </div>
-      </div>
+
+        <hr/>
+
+        <!-- Content Row parametros y resultados tabla -->
+
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="card shadow mb-6">
+                    <nav>
+                        <div class="nav nav-tabs card-header py-2 d-flex flex-row align-items-center" id="nav-tab"
+                             role="tablist">
+                            <a class="nav-link text-primary active" id="nav-parametros-tab" data-toggle="tab"
+                               href="#nav-parametros"
+                               role="tab" aria-controls="nav-parametros" aria-selected="true">
+                                Parametros
+                            </a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active py-4" id="nav-parametros" role="tabpanel"
+                             aria-labelledby="nav-parametros-tab">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="card-body py-0">
+                                    <div class="row">
+                                        <!-- Cards para seleccionar la fechas  -->
+                                        <div class="col-xl-4 col-md-6">
+                                            <div class="card border-left-primary shadow h-100 py-2">
+                                                <div class="card-body">
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col mr-2">
+                                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                Campos
+                                                            </div>
+                                                            {# Paises disponibles #}
+                                                            <div
+                                                                    class="card-body form-group row text-xs font-weight-bold text-primary text-uppercase mb-0">
+                                                                <label for="example-date-input"
+                                                                       class="col-4 col-form-label">Paises</label>
+                                                                <div class="col-8">
+                                                                    <select
+                                                                            class="custom-select custom-select-sm mb-3 {% if formMercadoLibre.input_pais.errors %} is-invalid {% endif %}"
+                                                                            id="input_pais" name="input_pais">
+                                                                        <option selected>Seleccione un Pais</option>
+                                                                        {% for i, pais in paises.items %}
+                                                                            <option value="{{ i }}-{{ pais }}">{{ pais }}</option>
+                                                                        {% endfor %}
+
+
+                                                                    </select>
+
+                                                                </div>
+                                                            </div>
+
+                                                            {# categoria de producto #}
+                                                            <div
+                                                                    class="card-body form-group row text-xs font-weight-bold text-primary text-uppercase mb-1 py-0">
+                                                                <label for="example-date-input"
+                                                                       class="col-4 col-form-label">Categoria de
+                                                                    producto</label>
+                                                                <div class="col-8">
+                                                                    <select
+                                                                            class="custom-select custom-select-sm mb-3 {% if formMercadoLibre.input_categoria.errors %} is-invalid {% endif %}"
+                                                                            id="input_categoria" name="input_categoria">
+                                                                        <option selected>
+                                                                            Seleccione una categoria
+                                                                        </option>
+
+                                                                    </select>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- boton de generara consulta -->
+                                <div class="d-sm-flex align-items-center justify-content-center py-3 mb-1">
+                                    <button href="#" type="submit"
+                                            class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+                                        <i class="fas fa-download fa-sm text-white-50"></i> Generar Consulta
+                                    </button>
+
+                                    <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-3"
+                                       href="{% url 'app:pages:mercadolibre_resultados' %}">
+                                        Ver Datos
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-{% endblock content %} {% block extraScripts %}
-<script>
-  // funcion para obtencion de una token de ajax para django
-  function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie != "") {
-      var cookies = document.cookie.split(";");
-      for (var i = 0; i < cookies.length; i++) {
-        var cookie = jQuery.trim(cookies[i]);
-        if (cookie.substring(0, name.length + 1) == name + "=") {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    //RETORNANDO EL TOKEN
-    return cookieValue;
-  } //end function getCookie
+{% endblock content %}
+{% block extraScripts %}
+    <script>
+        // funcion para obtencion de una token de ajax para django
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != "") {
+                var cookies = document.cookie.split(";");
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    if (cookie.substring(0, name.length + 1) == name + "=") {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            //RETORNANDO EL TOKEN
+            return cookieValue;
+        } //end function getCookie
 
-  /*AJAX HACIA DJANGO PARA LA CATEGORIAS DE CADA UNOS DE LOS PAISES*/
-  //token
-  var csrftoken = getCookie("csrftoken");
-  $(function () {
-    $('select[name="input_pais"]').on("change", function () {
-      var id = $(this).val();
-      console.log(id)
-      var categorias = $('select[name="input_categoria"]');
-      var options = '<option values="" selected> Seleccione una categoria </option>';
-      $.ajax({
-        url: window.location.pathname,
-        type: "POST",
-        data: {
-          csrfmiddlewaretoken: csrftoken,
-          action: "buscar_categoria",
-          id: id,
-        },
-        dataType: "json",
-      })
-        .done(function (data) {
-          if (!data.hasOwnProperty("error")) {
-            $.each(data, function (key, values) {
-              options += '<option value="' + key + '-' + values + '"> ' + values + "</option>";
+        /*AJAX HACIA DJANGO PARA LA CATEGORIAS DE CADA UNOS DE LOS PAISES*/
+        //token
+        var csrftoken = getCookie("csrftoken");
+        $(function () {
+            $('select[name="input_pais"]').on("change", function () {
+                var id = $(this).val();
+                console.log(id)
+                var categorias = $('select[name="input_categoria"]');
+                var options = '<option values="" selected> Seleccione una categoria </option>';
+                $.ajax({
+                    url: window.location.pathname,
+                    type: "POST",
+                    data: {
+                        csrfmiddlewaretoken: csrftoken,
+                        action: "buscar_categoria",
+                        id: id,
+                    },
+                    dataType: "json",
+                })
+                    .done(function (data) {
+                        if (!data.hasOwnProperty("error")) {
+                            $.each(data, function (key, values) {
+                                options += '<option value="' + key + '-' + values + '"> ' + values + "</option>";
+                            });
+                            return false;
+                        }
+                        message_error(data.error);
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        alert(textStatus + ": " + errorThrown);
+                    })
+                    .always(function (data) {
+                        categorias.html(options);
+                    });
             });
-            return false;
-          }
-          message_error(data.error);
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-          alert(textStatus + ": " + errorThrown);
-        })
-        .always(function (data) {
-          categorias.html(options);
         });
-    });
-  });
-</script>
+    </script>
 {% endblock extraScripts %}

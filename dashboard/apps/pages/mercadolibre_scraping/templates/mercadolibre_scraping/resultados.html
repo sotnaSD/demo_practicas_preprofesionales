@@ -1,0 +1,157 @@
+{% extends 'olx/base.html' %}
+{% load static %}
+{% block title %}
+        Mercado Libre - Resultados Datos
+{% endblock title %}
+
+{% block content %}
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="row py-2 mb-1">
+            <div class="col-md-8">
+                <h1 class="h3 mb-0 text-gray-800">Resultados de Mercado Libre</h1>
+                <div class="row py-4">
+                    <div class="col-md-6">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Número de datos
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ num_registros }}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <i class="fas fa-poll fa-4x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Número de campos
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ num_parametros }}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <i class="fas fa-outdent fa-4x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 frame-center">
+                <i href="#" class="fas fa-shopping-cart fa-7x " style="color: rgb(235, 235, 23);"></i>
+            </div>
+        </div>
+        <hr/>
+
+        <!-- Content Row parametros y resultados tabla -->
+
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="card shadow mb-6">
+                    <nav>
+                        <div class="nav nav-tabs card-header py-2 d-flex flex-row align-items-center" id="nav-tab"
+                             role="tablist">
+                            <a class="nav-link text-primary active" id="nav-resultados-tab" data-toggle="tab"
+                               href="#nav-resultados" role="tab" aria-controls="nav-parametros" aria-selected="true">
+                                Resultados
+                            </a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade fade show active py-4" id="nav-resultados" role="tabpanel"
+                             aria-labelledby="nav-resultados-tab">
+                            <!-- tabla de resultados -->
+                            <div class="container-fluid py-4">
+                                <div class="card shadow mb-4">
+                                    <!-- table Heading -->
+                                    <div class="card-header py-3 d-sm-flex align-items-center justify-content-between mb-4">
+                                        <h6 class="m-0 font-weight-bold text-primary">
+                                            Resutaldo de Mercado Libre
+                                        </h6>
+                                        <form method="post">{% csrf_token %}
+                                            <button type="submit"
+                                                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                                    class="fas fa-download fa-sm text-white-50"></i>
+                                                Exportar datos</button>
+                                        </form>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-stripe table-hover" id="dataTable"
+                                                   width="100%" cellspacing="0">
+                                                <thead>
+                                                <th scope="col">TITULO</th>
+                                                <th scope="col">PRECIO</th>
+                                                <th scope="col">UBICACION</th>
+                                                <th scope="col">DESCRIPCION</th>
+                                                <th scope="col">URL</th>
+                                                </thead>
+                                                <tbody>
+                                                {% for dato in datos %}
+                                                    <tr>
+                                                        <td>{{ dato.titulo }}</td>
+                                                        <td>{{ dato.precio }}</td>
+                                                        <td>{{ dato.ubicacion }}</td>
+                                                        <td>{{ dato.descripcion }}</td>
+                                                        <td><a href="{{ dato.url }}" target="_blank">IR</a></td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block extraScripts %}
+    <script src="{% static 'vendor/datatables/1.10.20/datatables.bs4.min.js' %}"></script>
+    <script src="{% static 'vendor/sb-admin-2/js/demo/datatables.js' %}"></script>
+{% endblock extraScripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

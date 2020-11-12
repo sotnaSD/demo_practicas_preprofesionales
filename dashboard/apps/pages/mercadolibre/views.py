@@ -10,8 +10,8 @@ from .utils import getTrendsMercadoLibre
 # importacion de modelos
 from .models import MercadoLibre
 from ...frontend.models import TerminoBusqueda
-
-#importacion de modulos 
+from ..mercadolibre_scraping.utils import start_crawler
+# importacion de modulos
 from datetime import datetime
 import django_excel as excel
 
@@ -21,6 +21,7 @@ class IndexView(generic.View):
     """
     IndexView:
     """
+
     def get(self, *args, **kwargs):
         datos = MercadoLibre.objects.all()
         name_columns = MercadoLibre._meta.fields
@@ -31,7 +32,7 @@ class IndexView(generic.View):
             'paises': getPaisMercadoLibre()
         }
         # return template con paises
-        return render(self.request, 'mercadolibre/base.html',context)
+        return render(self.request, 'mercadolibre/base.html', context)
 
     def post(self, *args, **kwargs):
         # condicional para el ajax del combo box
@@ -54,14 +55,14 @@ class IndexView(generic.View):
                     mercado_libre.save()
             except Exception as e:
                 print(e)
-            
+
             # Guardar termino de busqueda
-            txt_busqueda=str(id_pais[1]+'-'+id_categoria[1])
+            txt_busqueda = str(id_pais[1] + '-' + id_categoria[1])
             if TerminoBusqueda.objects.filter(nombre=txt_busqueda).exists():
-                datos = TerminoBusqueda.objects.filter(nombre=txt_busqueda) 
-                TerminoBusqueda.objects.filter(nombre=txt_busqueda).update(numero_consulta=datos[0].numero_consulta+1)
-            else:               
-                terminos_busqueda=TerminoBusqueda(nombre=txt_busqueda,numero_consulta=1)
+                datos = TerminoBusqueda.objects.filter(nombre=txt_busqueda)
+                TerminoBusqueda.objects.filter(nombre=txt_busqueda).update(numero_consulta=datos[0].numero_consulta + 1)
+            else:
+                terminos_busqueda = TerminoBusqueda(nombre=txt_busqueda, numero_consulta=1)
                 terminos_busqueda.save()
             return redirect('app:pages:mercadolibre_resultados')
         else:
@@ -86,8 +87,17 @@ class MercadoLibreResutlados(generic.View):
             'name_columns': name_columns
         }
         return render(self.request, 'mercadolibre/tabla.html', context)
+
     def post(self, *args, **kwargs):
-         # exportar datos como csv
+        if 'url' in self.request.POST.keys():
+            query = self.request.POST['url'].split('/')[-1]
+            print("************************")
+            print(query)
+            print('*********************')
+            start_crawler(query, '2')
+            return JsonResponse({'respuesta': 'Se ha realizado el crawler de '+query})
+
+        # exportar datos como csv\
         if self.request.method == "POST":
             export = []
             # Se agregan los encabezados de las columnas
@@ -103,7 +113,7 @@ class MercadoLibreResutlados(generic.View):
                 export.append([
                     result.consulted_at,
                     result.nombre,
-                    result.url ])
+                    result.url])
 
             # Obtenemos la fecha para agregarla al nombre del archivo
             today = datetime.now()
@@ -114,4 +124,4 @@ class MercadoLibreResutlados(generic.View):
 
             # se devuelve como "Response" el archivo para que se pueda "guardar"
             # en el navegador, es decir como hacer un "Download"
-            return excel.make_response(sheet, "csv", file_name="mercadolibre-"+strToday+".csv")
+            return excel.make_response(sheet, "csv", file_name="mercadolibre-tendencias-" + strToday + ".csv")

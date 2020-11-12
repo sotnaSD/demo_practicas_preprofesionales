@@ -11,11 +11,11 @@
 	<meta name="author" content="" />
 
 	<!-- incio cache -->
-	<meta http-equiv="Expires" content="0">
-	<meta http-equiv="Last-Modified" content="0">
-	<meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
-	<meta http-equiv="Pragma" content="no-cache">
-	<!-- fin cache -->
+{#	<meta http-equiv="Expires" content="0">#}
+{#	<meta http-equiv="Last-Modified" content="0">#}
+{#	<meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">#}
+{#	<meta http-equiv="Pragma" content="no-cache">#}
+{#	<!-- fin cache -->#}
 
 	<title>
 		{% block title %}
@@ -103,16 +103,29 @@
 
 			<!-- Nav Item - Mercado Libre -->
 			<li class="nav-item">
-				<a class="nav-link" href="{% url 'app:pages:mercadolibre' %}">
-					<i class="fas fa-shopping-cart"></i>
-					<span>Mercado Libre</span></a>
-			</li>
+					<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+						<i class="fas fa-shopping-cart"></i>
+						<span>Mercado Libre</span>
+					</a>
+					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+						<div class="bg-white py-2 collapse-inner rounded">
+							<a href="{% url 'app:pages:mercadolibre_api' %}" class="collapse-item" >API</a>
+							<a href="{% url 'app:pages:mercadolibre_scraping' %}" class="collapse-item" >Web Scraping</a>
+						</div>
+					</div>
+				</li>
 
 			<!-- Nav Item - OLX -->
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'app:pages:olx' %}">
 					<i class="fas fa-fw fa-chart-area"></i>
 					<span>OLX</span></a>
+			</li>
+            <!-- Nav Item - Amazon -->
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'app:pages:amazon' %}">
+					<i class="fab fa-amazon"></i>
+					<span>Amazon</span></a>
 			</li>
 
 			<!-- Divider -->

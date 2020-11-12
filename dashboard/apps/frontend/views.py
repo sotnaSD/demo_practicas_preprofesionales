@@ -3,23 +3,28 @@ from django.db.models import Sum
 from django.views import generic
 
 # importacion de modelos de cada una de las plataformas
+from ..pages.amazon.models import ProductoAmazon
 from ..pages.mercadolibre.models import MercadoLibre
+from ..pages.olx.models import ProductoOlx
 from ..pages.twitter.models import Tweet
-from ..pages.youtube.models import YoutubeVideo
-from ..pages.youtube.models import YoutubeComentario
+from ..pages.youtube.models import YoutubeVideo, YoutubeComentario
 from .models import TerminoBusqueda
 # importacion de una libreria necesaria
 import json
 
-# vista del frontend 
+
+# vista del frontend
 class IndexView(generic.TemplateView):
 
     def get(self, *args, **kwargs):
         # consulta de datos de cada una de la plataforma
-        mercadolibre = MercadoLibre.objects.all()
+
         tweet = Tweet.objects.all()
         youtubeVideo = YoutubeVideo.objects.all()
         youtubeComentario = YoutubeComentario.objects.all()
+        mercadolibre = MercadoLibre.objects.all()
+        olx = ProductoOlx.objects.all()
+        amazon = ProductoAmazon.objects.all()
 
         # consulta de datos de los terminos de busqueda
         terminoBusqueda = TerminoBusqueda.objects.all()
@@ -58,9 +63,15 @@ class IndexView(generic.TemplateView):
             },
             {
                 "nombre": "OLX",
-                "valor": 0,
+                "valor": len(olx),
                 "class_icons": "fas fa-fw fa-chart-area fa-1x"
-            }]
+            },
+            {
+                "nombre": "Amazon",
+                "valor": len(amazon),
+                "class_icons": "fab fa-amazon fa-1x"
+            }
+        ]
         # contexto con los parametros necesarios para el template frontend
         context = {
             "total_datos": sum(list([list(i.values())[1] for i in datos])),
@@ -78,7 +89,7 @@ class IndexView(generic.TemplateView):
         """
 
         valores_ordenados = sorted([(list(plataforma.values())[1])
-                                    for plataforma in diccionario],  reverse=True)
+                                    for plataforma in diccionario], reverse=True)
         vect_ordenado = []
         for valor in valores_ordenados:
             for plataforma in diccionario:

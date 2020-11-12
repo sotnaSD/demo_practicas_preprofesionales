@@ -1,0 +1,147 @@
+{% extends 'site/base.html' %}
+{% load static %}
+{% block title %}
+    Mercado Libre - Datos de Búqueda
+{% endblock title %}
+
+{% block    extra_styles %}
+    <link href="{% static 'site/css/site.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock extra_styles %}
+
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row py-2 mb-1">
+            <div class="col-md-8">
+                <h1 class="h3 mb-0 text-gray-800">Resultados de OLX</h1>
+                <div class="row py-4">
+                    <div class="col-md-6">
+
+
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Número de datos
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ num_registros }}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <i class="fas fa-poll fa-4x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Número de campos
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ num_parametros }}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <i class="fas fa-outdent fa-4x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 frame-center">
+
+                <i href="#" class="fas fa-shopping-cart fa-7x " style="color: rgb(235, 235, 23);"></i>
+            </div>
+        </div>
+
+        <hr/>
+
+        <!-- Content Row parametros y resultados tabla -->
+
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="card shadow mb-6">
+                    <nav>
+                        <div class="nav nav-tabs card-header py-2 d-flex flex-row align-items-center" id="nav-tab"
+                             role="tablist">
+                            <a class="nav-link text-primary active" id="nav-parametros-tab" data-toggle="tab"
+                               href="#nav-parametros"
+                               role="tab" aria-controls="nav-parametros" aria-selected="true">
+                                Parametros
+                            </a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active py-4" id="nav-parametros" role="tabpanel"
+                             aria-labelledby="nav-parametros-tab">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="card-body align-items-center justify-content-center py-3 ">
+                                    <div class="row">
+                                        <!-- Cards para seleccionar la fechas  -->
+                                        <div class="col-xl-4 col-md-6">
+                                            <div class="card border-left-primary shadow h-100 py-2">
+                                                <div class="card-body">
+                                                    <!-- Palabras claves -->
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        Palabras de busqueda.
+                                                    </div>
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" placeholder="Ejm: Textil, Ropa, ..."
+                                                               class="form-control"
+                                                               aria-label="Small"
+                                                               aria-describedby="inputGroup-sizing-sm"
+                                                               name="query"
+                                                        />
+                                                    </div>
+                                                    <!--Fin palabras claves  -->
+
+                                                    <hr/>
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        Número de páginas para la busqueda.
+                                                    </div>
+                                                    <div class="input-group mb-3">
+                                                        <input type="number" class="form-control " required
+                                                               placeholder="Escriba el numero de páginas"
+                                                               id="num_paginas" name="num_paginas" min="1">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- boton de generara consulta -->
+                                <div class="d-sm-flex align-items-center justify-content-center py-3 mb-1">
+                                    <button href="#" type="submit"
+                                            class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+                                        <i class="fas fa-download fa-sm text-white-50"></i> Generar Consulta
+                                    </button>
+
+                                    <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-3"
+                                       href="{% url 'app:pages:mercadolibrescraping_resultados' %}">
+                                        Ver Datos
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

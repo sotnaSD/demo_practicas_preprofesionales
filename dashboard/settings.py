@@ -1,5 +1,6 @@
 from pathlib import Path
 from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,7 +14,6 @@ SECRET_KEY = 'k+2)m^%e=v=kq9c$ku=d$m$*ql1l_9kb!!)-^+u9vvyjjp9i8l'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -34,6 +34,9 @@ INSTALLED_APPS = [
     'dashboard.apps.pages.google',
     'dashboard.apps.pages.mercadolibre',
     'dashboard.apps.pages.olx',
+    'dashboard.apps.pages.crawler',
+    'dashboard.apps.pages.mercadolibre_scraping',
+    'dashboard.apps.pages.amazon',
 
 ]
 
@@ -69,7 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'dashboard.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -79,7 +81,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -99,7 +100,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 USE_L10N = True
 
-USE_TZ = False 
+USE_TZ = False
 
 LANGUAGE_CODE = 'es'
 
@@ -132,13 +132,10 @@ STATICFILES_DIRS = [
 # credenciales para la extraccion de datos de twitter
 TWITTER_CONSUMER_KEY = config('TWITTER_CONSUMER_KEY')
 TWITTER_CONSUMER_SECRET = config('TWITTER_CONSUMER_SECRET')
-TWITTER_ACCESS_TOKEN =config('TWITTER_ACCESS_TOKEN')
+TWITTER_ACCESS_TOKEN = config('TWITTER_ACCESS_TOKEN')
 TWITTER_ACCESS_TOKEN_SECRET = config('TWITTER_ACCESS_TOKEN_SECRET')
 
-#credenciales para la extracción de datos de youtube
+# credenciales para la extracción de datos de youtube
 YOUTUBE_DEVELOPER_KEY = config('YOUTUBE_DEVELOPER_KEY')
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
-
-
-
