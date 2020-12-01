@@ -68,8 +68,8 @@
                                                     <div class=" date input-group  col-sm-12 col-md-12 col-xl-7"
                                                          style="margin: 15px 0px">
                                                         <input class="form-control" type="date"
-                                                                   value="{{ twitter|date:'Y-m-d' }}"
-                                                                   id="input_fecha_inicio" name="fecha"/>
+                                                               value="{{ twitter|date:'Y-m-d' }}"
+                                                               id="input_fecha_inicio" name="fecha"/>
                                                     </div>
 
 
@@ -108,9 +108,7 @@
                                             <a href="{% url 'app:pages:youtube_resultados_comentarios' %}"
                                                class="btn  btn-danger" style="cursor: pointer;color: white">Ver
                                                 comentarios extraídos</a>
-
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -118,9 +116,22 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body d-flex justify-content-center">
+                    <div class="spinner-border text-success " role="status">
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+            </div>
 
         </div>
-
     </div>
     {% block extraScripts %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>

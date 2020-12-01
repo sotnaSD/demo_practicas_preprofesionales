@@ -8,6 +8,7 @@ from ..pages.mercadolibre.models import MercadoLibre
 from ..pages.olx.models import ProductoOlx
 from ..pages.twitter.models import Tweet
 from ..pages.youtube.models import YoutubeVideo, YoutubeComentario
+from ..pages.pinterest.models import ProductoPinterest, ProductoPinterestComentario
 from .models import TerminoBusqueda
 # importacion de una libreria necesaria
 import json
@@ -25,6 +26,7 @@ class IndexView(generic.TemplateView):
         mercadolibre = MercadoLibre.objects.all()
         olx = ProductoOlx.objects.all()
         amazon = ProductoAmazon.objects.all()
+        pinterest = ProductoPinterestComentario.objects.all()
 
         # consulta de datos de los terminos de busqueda
         terminoBusqueda = TerminoBusqueda.objects.all()
@@ -69,6 +71,11 @@ class IndexView(generic.TemplateView):
             {
                 "nombre": "Amazon",
                 "valor": len(amazon),
+                "class_icons": "fab fa-amazon fa-1x"
+            },
+            {
+                "nombre": "Amazon",
+                "valor": len(pinterest),
                 "class_icons": "fab fa-amazon fa-1x"
             }
         ]

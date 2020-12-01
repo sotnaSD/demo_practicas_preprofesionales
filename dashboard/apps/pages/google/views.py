@@ -4,12 +4,15 @@ from django.http import JsonResponse
 import pandas as pd
 from pytrends.request import TrendReq
 import datetime
+
 pytrend = TrendReq(hl='es-EC', tz=360)
 from django.views.generic import View
 import django_excel as excel
 from django.contrib import messages
-from django.shortcuts import  redirect
+from django.shortcuts import redirect
 from ...frontend.models import TerminoBusqueda
+
+
 # Create your views here.
 class IndexView(generic.TemplateView):
     """
@@ -17,6 +20,7 @@ class IndexView(generic.TemplateView):
     """
     module = 'IndexView'
     template_name = 'google/base.html'
+
 
 def obtenerTrends(request):
     palabraClave = request.GET.get('palabraClaves', None)
@@ -38,7 +42,7 @@ def obtenerTrends(request):
     data = data.reset_index()
     fechas = data['date']
     trends = data.drop(labels=['date'], axis='columns')
-     #para el interes por region
+    # para el interes por region
     data = pytrend.interest_by_region()
     data = data.reset_index()
     regiones = data["geoName"]
@@ -62,8 +66,7 @@ def obtenerTrends(request):
     return JsonResponse(response)
 
 
-
-#para exportar los datos de google trends
+# para exportar los datos de google trends
 def exportarTrends(request):
     palabraClave = request.GET.get('palabraClaves', None)
     query = palabraClave.split(',')
@@ -92,4 +95,5 @@ def exportarTrends(request):
     sheet = excel.pe.Sheet(export)
     # se devuelve como "Response" el archivo para que se pueda "guardar"
     # en el navegador, es decir como hacer un "Download"
-    return excel.make_response(sheet, "csv", file_name= 'google_trends_data'+(datetime.datetime.now().strftime("%Y-%m-%d-%H-%M"))+'.csv')
+    return excel.make_response(sheet, "csv", file_name='google_trends_data' + (
+        datetime.datetime.now().strftime("%Y-%m-%d-%H-%M")) + '.csv')

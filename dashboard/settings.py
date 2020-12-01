@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'dashboard.apps.pages.crawler',
     'dashboard.apps.pages.mercadolibre_scraping',
     'dashboard.apps.pages.amazon',
+    'dashboard.apps.pages.pinterest'
 
 ]
 
@@ -139,3 +140,26 @@ TWITTER_ACCESS_TOKEN_SECRET = config('TWITTER_ACCESS_TOKEN_SECRET')
 YOUTUBE_DEVELOPER_KEY = config('YOUTUBE_DEVELOPER_KEY')
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
+
+# credenciales de pinterest para la extracción de datos
+PINTEREST_USERNAME=config('PINTEREST_USERNAME')
+PINTEREST_PASSWORD=config('PINTEREST_PASSWORD')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

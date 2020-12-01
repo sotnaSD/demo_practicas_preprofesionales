@@ -187,24 +187,25 @@
 
         /*AJAX HACIA DJANGO PARA LA CATEGORIAS DE CADA UNOS DE LOS PAISES*/
         //token
-        var csrftoken = getCookie("csrftoken");
         $(function () {
             $('select[name="input_pais"]').on("change", function () {
-                var id = $(this).val();
-                console.log(id)
-                var categorias = $('select[name="input_categoria"]');
-                var options = '<option values="" selected> Seleccione una categoria </option>';
+                {#obtencion del id del pais#}
+                let id = $(this).val();
+                {#variable para crear el combobox con las categorias#}
+                let categorias = $('select[name="input_categoria"]');
+                let options = '<option values="" selected> Seleccione una categoria </option>';
                 $.ajax({
                     url: window.location.pathname,
                     type: "POST",
                     data: {
-                        csrfmiddlewaretoken: csrftoken,
+                        csrfmiddlewaretoken: getCookie("csrftoken"),
                         action: "buscar_categoria",
                         id: id,
                     },
                     dataType: "json",
                 })
                     .done(function (data) {
+                        {#obtencio del respuesta y llenado de combobox de categorias#}
                         if (!data.hasOwnProperty("error")) {
                             $.each(data, function (key, values) {
                                 options += '<option value="' + key + '-' + values + '"> ' + values + "</option>";
@@ -217,6 +218,7 @@
                         alert(textStatus + ": " + errorThrown);
                     })
                     .always(function (data) {
+                        {#imprimir el combobox#}
                         categorias.html(options);
                     });
             });

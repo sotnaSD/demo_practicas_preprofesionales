@@ -3,6 +3,9 @@ from django.db import models
 
 # Create your models here.
 class ProductoOlx(models.Model):
+    """
+    Modelo para guardar los resultados de olx que se hacen con web scraping
+    """
     id_busqueda = models.IntegerField()
     id_producto = models.IntegerField()
     titulo = models.CharField(max_length=200)

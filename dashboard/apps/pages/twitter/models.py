@@ -1,11 +1,11 @@
 from django.db import models
-from django.conf import settings
 
 
 # Create your models here.
-
-
 class Tweet(models.Model):
+    """
+    Modelos para guardar los datos de twitter
+    """
     consulted_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField()
     userName = models.CharField(max_length=200)

@@ -3,6 +3,9 @@ from django.db import models
 
 # Create your models here.
 class ProductoAmazon(models.Model):
+    """
+    Modelo de base datos para la plataforma Amazon
+    """
     id_busqueda = models.IntegerField()
     id_producto = models.IntegerField()
     titulo = models.CharField(max_length=200)

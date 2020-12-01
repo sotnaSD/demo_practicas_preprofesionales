@@ -14,14 +14,16 @@ from ..mercadolibre_scraping.utils import start_crawler
 # importacion de modulos
 from datetime import datetime
 import django_excel as excel
+import time
 
 
 # Vista para la app frontend
 class IndexView(generic.View):
     """
-    IndexView:
+    IndexView: clase principal para la plataforma de mercado libre tendencias
     """
 
+    # metodo get para IndexView de mercado libre
     def get(self, *args, **kwargs):
         datos = MercadoLibre.objects.all()
         name_columns = MercadoLibre._meta.fields
@@ -34,6 +36,7 @@ class IndexView(generic.View):
         # return template con paises
         return render(self.request, 'mercadolibre/base.html', context)
 
+    # metodo pos para IndexView de mercado libre
     def post(self, *args, **kwargs):
         # condicional para el ajax del combo box
         if 'action' in list(self.request.POST.keys()):
@@ -74,7 +77,11 @@ class IndexView(generic.View):
 
 
 class MercadoLibreResutlados(generic.View):
-    # metodo para mostrar los resultados en una tabla
+    """
+    Clase para mostrar la pagina de los resultados de mercado libre tendencias
+    """
+    # metodo get del MercadoLibre resultado de mercado libre
+    # Muestra los resultados en una tabla
     def get(self, *args, **kwargs):
         # consulta a la base de datos
         datos = MercadoLibre.objects.all()
@@ -89,13 +96,22 @@ class MercadoLibreResutlados(generic.View):
         return render(self.request, 'mercadolibre/tabla.html', context)
 
     def post(self, *args, **kwargs):
+        # condicion para que si es un ajax ingrese y haga scraping al enlace
         if 'url' in self.request.POST.keys():
-            query = self.request.POST['url'].split('/')[-1]
-            print("************************")
-            print(query)
-            print('*********************')
-            start_crawler(query, '2')
-            return JsonResponse({'respuesta': 'Se ha realizado el crawler de '+query})
+            import time
+            # time.sleep(1)
+            try:
+                # obtencion de la url y separacion de la palabra de busqueda
+                query = self.request.POST['url'].split('/')[-1]
+                # llamar al metodo start_crawler de utils de la aplicacion mercadolibre_scraping
+                start_crawler(query, '2')
+                # time
+                time.sleep(1)
+                # return un json de confirmacion que se realizo el crawler.
+                return JsonResponse({'respuesta': 'Se ha realizado el crawler de ' + query})
+            except Exception as e:
+                # retornas un respuesta cuando ocurra un error.
+                return JsonResponse({'error': 'Ocurrio un error: ' + e})
 
         # exportar datos como csv\
         if self.request.method == "POST":

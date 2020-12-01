@@ -109,9 +109,7 @@
                                                                     <input
                                                                             class="form-control {% if formTweets.input_fecha_inicio.errors %} is-invalid {% endif %}"
                                                                             type="date"
-                                                                            value="
-
-                                                                                    {% if formTweets.errors %}{{ formTweets.input_fecha_inicio.value }}{% else %}{{ placement.date|date:'Y-m-d' }}{% endif %}"
+                                                                            value=" {% if formTweets.errors %}{{ formTweets.input_fecha_inicio.value }}{% else %}{{ placement.date|date:'Y-m-d' }}{% endif %}"
                                                                             id="input_fecha_inicio"
                                                                             name="input_fecha_inicio"/>
                                                                     <div class="invalid-feedback">
@@ -133,9 +131,7 @@
                                                                     <input
                                                                             class="form-control {% if formTweets.input_fecha_fin.errors %} is-invalid {% endif %}"
                                                                             type="date"
-                                                                            value="
-
-                                                                                    {% if formTweets.errors %}{{ formTweets.input_fecha_fin.value }}{% else %}{{ placement.date|date:'Y-m-d' }}{% endif %}"
+                                                                            value=" {% if formTweets.errors %}{{ formTweets.input_fecha_fin.value }}{% else %}{{ placement.date|date:'Y-m-d' }}{% endif %}"
                                                                             id="input_fecha_fin"
                                                                             name="input_fecha_fin"/>
 
@@ -166,9 +162,7 @@
                                                                aria-label="Small"
                                                                aria-describedby="inputGroup-sizing-sm"
                                                                name="input_palabras_claves"
-                                                               value="
-
-                                                                       {% if formTweets.errors %}{{ formTweets.input_palabras_claves.value }}{% endif %}"/>
+                                                               value="{% if formTweets.errors %}{{ formTweets.input_palabras_claves.value }}{% endif %}"/>
                                                         <div class="invalid-feedback">
                                                             {% for error in formTweets.input_palabras_claves.errors %}
                                                                 {{ error }}
@@ -188,9 +182,7 @@
                                                                aria-describedby="inputGroup-sizing-sm"
                                                                id="input_ubicacion"
                                                                name="input_ubicacion"
-                                                               value="
-
-                                                                       {% if formTweets.errors %}{{ formTweets.input_ubicacion.value }}{% endif %}"/>
+                                                               value="{% if formTweets.errors %}{{ formTweets.input_ubicacion.value }}{% endif %}"/>
                                                         <div class="invalid-feedback">
                                                             {% for error in formTweets.input_ubicacion.errors %}
                                                                 {{ error }}
@@ -236,8 +228,11 @@
 
                                 <!-- botones de generara consulta e ir a los resultados -->
                                 <div class="d-sm-flex align-items-center justify-content-center py-3 mb-1">
-                                    <button href="#" type="submit"
-                                            class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm ">
+                                    <button href="#"
+                                            type="submit"
+                                            class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm "
+                                            data-toggle="modal"
+                                            data-target="  {% if formTweets.errors %} #staticBackdrop {% endif %}">
                                         Generar Consulta
                                     </button>
                                     <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-3"
@@ -251,6 +246,21 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body d-flex justify-content-center">
+                    <div class="spinner-border text-success " role="status">
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 {% endblock content %}

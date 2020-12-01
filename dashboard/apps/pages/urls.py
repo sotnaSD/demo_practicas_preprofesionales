@@ -9,7 +9,7 @@ import dashboard.apps.pages.olx.views as olxViews
 import dashboard.apps.pages.amazon.views as amazonViews
 import dashboard.apps.pages.youtube.views as youtubeViews
 import dashboard.apps.pages.google.views as googleViews
-
+import dashboard.apps.pages.pinterest.views as pinterestViews
 import dashboard.apps.frontend.views as mainViews
 
 app_name = 'pages'
@@ -43,7 +43,11 @@ urlpatterns = [
          name='mercadolibre_resultados'),
 
     path('mercadolibre_scraping', mercadoLibreScrapingViews.IndexView.as_view(), name='mercadolibre_scraping'),
-    path('mercadolibrescraping_resultados', mercadoLibreScrapingViews.MercadoLibreResultados.as_view() ,
+    path('mercadolibrescraping_resultados', mercadoLibreScrapingViews.MercadoLibreResultados.as_view(),
          name='mercadolibrescraping_resultados'),
+
+    path('pinterest', pinterestViews.IndexView.as_view(), name='pinterest'),
+    path('pinterest_resultados', pinterestViews.PinterestResultados.as_view(),
+         name='pinterest-resultados'),
 
 ]

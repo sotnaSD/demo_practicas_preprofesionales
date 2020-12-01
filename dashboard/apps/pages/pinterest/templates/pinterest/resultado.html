@@ -1,7 +1,7 @@
-{% extends 'mercadolibre/base.html' %}
+{% extends 'olx/base.html' %}
 {% load static %}
 {% block title %}
-    Mercado Libre - Resultados Tendencia de Búqueda
+    Pinterest - Resultados
 {% endblock title %}
 
 {% block content %}
@@ -9,7 +9,7 @@
         <!-- Page Heading -->
         <div class="row py-2 mb-1">
             <div class="col-md-8">
-                <h1 class="h3 mb-0 text-gray-800">Resultados Mercado Libre</h1>
+                <h1 class="h3 mb-0 text-gray-800">Resultados de Pinterest</h1>
                 <div class="row py-4">
                     <div class="col-md-6">
                         <div class="card border-left-primary shadow h-100 py-2">
@@ -83,7 +83,7 @@
                                     <!-- table Heading -->
                                     <div class="card-header py-3 d-sm-flex align-items-center justify-content-between mb-4">
                                         <h6 class="m-0 font-weight-bold text-primary">
-                                            Resutaldo de Mercado Libre
+                                            Resutaldo de Pinterest
                                         </h6>
                                         <form method="post">{% csrf_token %}
                                             <button type="submit"
@@ -95,36 +95,37 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered table-stripe table-hover"
-                                                   id="dataTable_tendencias"
-                                            >
-                                                {% for row in datos %} {% if forloop.first %}
-                                                    <thead>
+                                            <table class="table table-bordered table-stripe table-hover" id="dataTable"
+                                                   width="100%" cellspacing="0">
+                                                <thead>
+                                                <th scope="col">TITULO</th>
+                                                <th scope="col">DESCRIPCION</th>
+                                                <th scope="col">URL</th>
+                                                <th scope="col">COMENTARIO</th>
+                                                <th scope="col">URL IMAGEN</th>
+                                                </thead>
+                                                <tbody>
+                                                {% for dato in datos %}
                                                     <tr>
-                                                        {% for col in name_columns %}
-                                                            <th>{{ col.name }}</th>
-                                                        {% endfor %}
-                                                        <th>Button</th>
+                                                        <td>{{ dato.titulo }}</td>
+                                                        <td>{{ dato.descripcion }}</td>
+                                                        <td>{{ dato.url }}</td>
+                                                        <td>''</td>
+                                                        <td><a href="{{ dato.url }}" target="_blank">IR</a></td>
                                                     </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                {% endif %}
+                                                    {% for dato_comentario in dato.get_comentario %}
+                                                        <tr>
+                                                            <td>{{ dato.titulo }}</td>
+                                                            <td>{{ dato.descripcion }}</td>
+                                                            <td>{{ dato.url }}</td>
+                                                            <td>{{ dato_comentario.comentario }}</td>
+                                                            <td><a href="{{ dato.url }}" target="_blank">IR</a></td>
 
-                                                <tr>
-                                                    <td>{{ row.consulted_at }}</td>
-                                                    <td>{{ row.nombre }}</td>
-                                                    <td>{{ row.url }}</td>
-                                                    <td>
-                                                        <button class="btnHacerCrawler d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-3"
-                                                                name="hacer_crawler_scrapin"
-                                                        >
-                                                            Hacer Crawler-Scraping
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                {% if forloop.last %}
-                                                    </tbody>
-                                                {% endif %} {% endfor %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% endfor %}
+
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -136,82 +137,32 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
-         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body d-flex justify-content-center">
-                    <div class="spinner-border text-success " role="status">
-                        <span class="sr-only"></span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
 {% endblock content %}
 
 
 {% block extraScripts %}
     <script src="{% static 'vendor/datatables/1.10.20/datatables.bs4.min.js' %}"></script>
-    <script src="{% static 'vendor/sb-admin-2/js/demo/datatablestendencias.js' %}"></script>
-    <script>
-        // funcion para obtencion de una token de ajax para django
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie != "") {
-                var cookies = document.cookie.split(";");
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    if (cookie.substring(0, name.length + 1) == name + "=") {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            //RETORNANDO EL TOKEN
-            return cookieValue;
-        } //end function getCookie
-
-        /*AJAX HACIA DJANGO PARA LA CRAWLER-SCRAPPING DE CADA UNOS DE LAS TENDENCIAS*/
-        //token
-        var csrftoken = getCookie("csrftoken");
-        $(function () {
-            $("#dataTable_tendencias").on("click", '.btnHacerCrawler', function () {
-                $('#staticBackdrop').modal('show');
-                console.log("11111")
-                $.ajax({
-                    url: window.location.pathname,
-                    type: "POST",
-                    data: {
-                        csrfmiddlewaretoken: csrftoken,
-                        action: "hacer_crawler_scraping",
-                        consulted_at: $(this).parents("tr").find("td")[0].innerHTML,
-                        nombre: $(this).parents("tr").find("td")[1].innerHTML,
-                        url: $(this).parents("tr").find("td")[2].innerHTML
-                    },
-                    dataType: "json",
-                })
-                    .done(function (data) {
-                        console.log("22222")
-                        console.log(data.respuesta)
-                        $('#staticBackdrop').modal('hide');
-                        {#$("#staticBackdrop").attr("data-dismiss","modal");#}
-                        console.log("5555")
-
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $('#staticBackdrop').modal('hide');
-                        alert(textStatus + ": " + errorThrown);
-                    })
-                    .always(function (data) {
-                        console.log("333")
-                        {#modaal.modal('hide');#}
-                        {#categorias.html(options);#}
-                    });
-            });
-        });
-    </script>
+    <script src="{% static 'vendor/sb-admin-2/js/demo/datatables.js' %}"></script>
 {% endblock extraScripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

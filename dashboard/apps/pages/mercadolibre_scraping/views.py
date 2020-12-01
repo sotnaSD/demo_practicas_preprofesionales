@@ -1,18 +1,18 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 
-from datetime import  datetime
+from datetime import datetime
 import django_excel as excel
 
 from .models import ProductoMercadoLibre
 from .utils import start_crawler
-
+from ...frontend.models import TerminoBusqueda
 
 
 # Create your views here.
 class IndexView(generic.View):
     """
-        IndexView:
+        IndexView: clase principal para mercado libre de webscraping
     """
 
     def get(self, *args, **kwargs):
@@ -30,12 +30,28 @@ class IndexView(generic.View):
         # print(self.request.POST)
         query = self.request.POST['query']
         num_paginas = self.request.POST['num_paginas']
-        start_crawler(query,num_paginas)
+        start_crawler(query, num_paginas)
+
+        # guardar consulta -- para historial
+        for i in query:
+            # comparacion de si exite algun temino solo actualiza el numero de consulta
+            if TerminoBusqueda.objects.filter(nombre=i).exists():
+                datos = TerminoBusqueda.objects.filter(nombre=i)
+                TerminoBusqueda.objects.filter(nombre=i).update(
+                    numero_consulta=datos[0].numero_consulta + 1)
+            else:
+                terminos_busqueda = TerminoBusqueda(
+                    nombre=i, numero_consulta=1)
+                terminos_busqueda.save()
+
+        #
         return redirect('app:pages:mercadolibrescraping_resultados')
 
 
-
 class MercadoLibreResultados(generic.View):
+    """
+    Clase principal para resultados de mercado libre de web scraping
+    """
     def get(self, *args, **kwargs):
         datos = ProductoMercadoLibre.objects.all()
         name_columns = ProductoMercadoLibre._meta.fields

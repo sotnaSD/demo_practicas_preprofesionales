@@ -1,7 +1,7 @@
 {% extends 'site/base.html' %}
 {% load static %}
 {% block title %}
-    Mercado Libre - Datos de Búqueda
+    Pinterest
 {% endblock title %}
 
 {% block    extra_styles %}
@@ -13,9 +13,11 @@
     <div class="container-fluid">
         <div class="row py-2 mb-1">
             <div class="col-md-8">
-                <h1 class="h3 mb-0 text-gray-800">Resultados de Mercado Libre</h1>
+                <h1 class="h3 mb-0 text-gray-800">Resultados de Pinterest</h1>
                 <div class="row py-4">
                     <div class="col-md-6">
+
+
                         <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -60,7 +62,7 @@
             </div>
             <div class="col-md-4 frame-center">
 
-                <i href="#" class="fas fa-shopping-cart fa-7x " style="color: rgb(235, 235, 23);"></i>
+                <i href="#" class="fab fa-pinterest-square fa-7x " style="color: rgb(189,8,28);"></i>
             </div>
         </div>
 
@@ -97,7 +99,8 @@
                                                         Palabras de busqueda.
                                                     </div>
                                                     <div class="input-group mb-3">
-                                                        <input type="text" placeholder="Ejm: Textil, Ropa, ..."
+                                                        <input type="text" required
+                                                               placeholder="Ejm: Textil, Ropa, ..."
                                                                class="form-control"
                                                                aria-label="Small"
                                                                aria-describedby="inputGroup-sizing-sm"
@@ -130,7 +133,7 @@
                                     </button>
 
                                     <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-3"
-                                       href="{% url 'app:pages:mercadolibrescraping_resultados' %}">
+                                       href="{% url 'app:pages:pinterest-resultados' %}">
                                         Ver Datos
                                     </a>
                                 </div>
