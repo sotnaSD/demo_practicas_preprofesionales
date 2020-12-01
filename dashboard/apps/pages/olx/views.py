@@ -29,12 +29,13 @@ class IndexView(generic.View):
 
     def post(self, *args, **kwargs):
         # print(self.request.POST)
-        query = self.request.POST['query']
+        query = self.request.POST['query'].split(',')
         num_paginas = self.request.POST['num_paginas']
 
-        start_crawler(query, num_paginas)
+        start_crawler(query[0], num_paginas)
         # guardar consulta -- para historial
         for i in query:
+            print("leggooooo")
             # comparacion de si exite algun temino solo actualiza el numero de consulta
             if TerminoBusqueda.objects.filter(nombre=i).exists():
                 datos = TerminoBusqueda.objects.filter(nombre=i)

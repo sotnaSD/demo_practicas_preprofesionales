@@ -34,7 +34,7 @@ def start_crawler(query, num_paginas):
     return None
 
 
-def buscarid(self):
+def buscarid():
     historia = Busqueda.objects.all()
 
     if len(historia) == 0:
@@ -44,7 +44,7 @@ def buscarid(self):
         return valor
 
 
-def datosamazon(self, link, id_bus, id_pro):
+def datosamazon( link, id_bus, id_pro):
     HEADERS = ({
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36',
         'Accept-Language': 'en-US, en;q=0.5'

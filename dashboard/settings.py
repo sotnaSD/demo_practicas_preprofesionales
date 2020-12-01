@@ -78,14 +78,8 @@ WSGI_APPLICATION = 'dashboard.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        "CLIENT": {
-           "name": 'sumaDB',
-           "host": 'mongodb+srv://suma_user:suma2020@cluster0.rnooz.mongodb.net/sumaDB?retryWrites=true&w=majority',
-           "username": 'suma_user',
-           "password": 'suma2020',
-           "authMechanism": "SCRAM-SHA-1",
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -148,24 +142,5 @@ YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
 # credenciales de pinterest para la extracción de datos
-PINTEREST_USERNAME=config('PINTEREST_USERNAME')
-PINTEREST_PASSWORD=config('PINTEREST_PASSWORD')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+PINTEREST_USERNAME = config('PINTEREST_USERNAME')
+PINTEREST_PASSWORD = config('PINTEREST_PASSWORD')

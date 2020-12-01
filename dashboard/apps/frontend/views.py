@@ -30,6 +30,7 @@ class IndexView(generic.TemplateView):
 
         # consulta de datos de los terminos de busqueda
         terminoBusqueda = TerminoBusqueda.objects.all()
+        num_solicitudes = terminoBusqueda.aggregate(suma=Sum("numero_consulta"))
 
         # construccion de un diccionario de cada una de las plataformas
         datos = [
@@ -74,9 +75,9 @@ class IndexView(generic.TemplateView):
                 "class_icons": "fab fa-amazon fa-1x"
             },
             {
-                "nombre": "Amazon",
+                "nombre": "Pinterest",
                 "valor": len(pinterest),
-                "class_icons": "fab fa-amazon fa-1x"
+                "class_icons": "fab fa-pinterest-square fa-1x"
             }
         ]
         # contexto con los parametros necesarios para el template frontend
@@ -85,7 +86,7 @@ class IndexView(generic.TemplateView):
             "datos": json.dumps(datos),
             "orden_datos": self.ordenar_vect_dict(datos),
             "num_terminos_busqueda": terminoBusqueda.count(),
-            "num_solicitudes": terminoBusqueda.aggregate(suma=Sum("numero_consulta")),
+            "num_solicitudes": num_solicitudes,
             "orden_terminos": terminoBusqueda.order_by("-numero_consulta")
         }
         return render(self.request, "frontend/base.html", context)

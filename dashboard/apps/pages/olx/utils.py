@@ -14,6 +14,7 @@ def start_crawler(query, num_paginas):
     df = crawler.e_commerceOLX(key=query, n_result=num_paginas)
     df['pagina'] = 0
 
+    print("llego")
     # guardar historial de busqueda
     id_busqueda = buscarid()
     busqueda = Busqueda(id_busqueda=id_busqueda, texto=query, n_paginas=num_paginas, sitios='olx')
@@ -33,7 +34,7 @@ def start_crawler(query, num_paginas):
     return None
 
 
-def buscarid(self):
+def buscarid():
     historia = Busqueda.objects.all()
 
     if len(historia) == 0:
@@ -43,7 +44,7 @@ def buscarid(self):
         return valor
 
 
-def datosOlx(self, link, id_bus, id_pro):
+def datosOlx(link, id_bus, id_pro):
     url = link
     id_busqueda = id_bus
     id_producto = id_pro

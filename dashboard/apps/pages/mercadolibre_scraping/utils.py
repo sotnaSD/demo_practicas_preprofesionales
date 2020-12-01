@@ -11,18 +11,28 @@ from ..crawler.models import Link
 
 
 def start_crawler(query, num_paginas):
+    print("llego aqui")
+    print(query)
+    print(num_paginas)
     crawler = CrawlerWeb()
     crawler.setUrl('https://listado.mercadolibre.com.ec/')
     crawler.setElement(by='as_word', findby=0)
+    print("llego aqui")
     df = crawler.e_commerceML(keys=[query], n_result=num_paginas)
     df['pagina'] = 1
 
+
+    print("llego aqui")
     # guardar historial de busqueda
     id_busqueda = buscarid()
     busqueda = Busqueda(id_busqueda=id_busqueda, texto=query, n_paginas=num_paginas, sitios='amazon')
     busqueda.save()
     cont = 0
+    print("llego aqui2")
+
     for i in df.index:
+        print("llego aqui3")
+
         titulo = df["titulo"][i]
         url = df["url"][i]
         pagina = df["pagina"][i]
@@ -31,6 +41,7 @@ def start_crawler(query, num_paginas):
             link = Link(id_busqueda=id_busqueda, id_link=cont, url=url, buscador='Mercado Libre')
             link.save()
             datosMercadoLibre(url, id_busqueda, cont)
+    print("llego aqui4")
 
     # productos = obtener_datos(df, id_busqueda)
     # contexto = {'productos': productos}

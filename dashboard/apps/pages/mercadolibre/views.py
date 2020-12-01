@@ -104,14 +104,16 @@ class MercadoLibreResutlados(generic.View):
                 # obtencion de la url y separacion de la palabra de busqueda
                 query = self.request.POST['url'].split('/')[-1]
                 # llamar al metodo start_crawler de utils de la aplicacion mercadolibre_scraping
-                start_crawler(query, '2')
+                start_crawler(query, '1')
                 # time
-                time.sleep(1)
+                time.sleep(3)
                 # return un json de confirmacion que se realizo el crawler.
                 return JsonResponse({'respuesta': 'Se ha realizado el crawler de ' + query})
             except Exception as e:
                 # retornas un respuesta cuando ocurra un error.
-                return JsonResponse({'error': 'Ocurrio un error: ' + e})
+                print(e)
+                time.sleep(3)
+                return JsonResponse({'error': 'Ocurrio un error: '})
 
         # exportar datos como csv\
         if self.request.method == "POST":

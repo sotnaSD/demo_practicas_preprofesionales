@@ -28,9 +28,9 @@ class IndexView(generic.View):
 
     def post(self, *args, **kwargs):
         # print(self.request.POST)
-        query = self.request.POST['query']
+        query = self.request.POST['query'].split(',')
         num_paginas = self.request.POST['num_paginas']
-        start_crawler(query, num_paginas)
+        start_crawler(query[0], num_paginas)
 
         # guardar consulta -- para historial
         for i in query:
@@ -40,8 +40,7 @@ class IndexView(generic.View):
                 TerminoBusqueda.objects.filter(nombre=i).update(
                     numero_consulta=datos[0].numero_consulta + 1)
             else:
-                terminos_busqueda = TerminoBusqueda(
-                    nombre=i, numero_consulta=1)
+                terminos_busqueda = TerminoBusqueda(nombre=i, numero_consulta=1)
                 terminos_busqueda.save()
 
         #
