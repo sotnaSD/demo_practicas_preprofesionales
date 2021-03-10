@@ -31,10 +31,13 @@ class IndexView(generic.View):
     def post(self, *args, **kwargs):
         # print(self.request.POST)
         query = self.request.POST['query'].split(',')
+        print(query,'    ====================')
         num_paginas = self.request.POST['num_paginas']
         crawler = CrawlerWeb()
         datos = crawler.pinterest(keys=query, n_result=num_paginas)
+        crawler.newDriver()
         datos = crawler.getPinterestUrl(datos)
+        print(datos)
         #guardar datos de productos
         for index, fila in datos[0].iterrows():
             dato = ProductoPinterest(

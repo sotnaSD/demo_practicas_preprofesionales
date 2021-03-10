@@ -25,8 +25,8 @@ class CrawlerWeb:
 
     # driver = webdriver.Chrome()
 
-    # def newDriver(self):
-    #     self.driver = webdriver.Chrome(ChromeDriverManager().install())
+    def newDriver(self):
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())
 
     def setElement(self, by='q', findby=0):
 
@@ -46,10 +46,13 @@ class CrawlerWeb:
             while len(df) < int(n_result):
                 lista = self.driver.find_elements_by_css_selector(elementsPath)
                 for elem in lista:
-                    title = elem.find_element_by_css_selector(namePath)
-                    url = elem.find_element_by_css_selector(urlPath).get_attribute("href")
+                    try:
+                        title = elem.find_element_by_css_selector(namePath)
+                        url = elem.find_element_by_css_selector(urlPath).get_attribute("href")
 
-                    df = df.append({'titulo': title.text, 'url': url}, ignore_index=True)
+                        df = df.append({'titulo': title.text, 'url': url}, ignore_index=True)
+                    except (NoSuchElementException, StaleElementReferenceException) as exp:
+                        pass
                 sleep(randint(5, 8))
                 try:
                     next = self.driver.find_element_by_xpath(next_element)
@@ -89,7 +92,8 @@ class CrawlerWeb:
         self.driver.get(url)
 
     def e_commerceML(self, keys=[], elementsPath='li.ui-search-layout__item',
-                     urlPath='a.ui-search-item__group__element.ui-search-link', namePath='h2.ui-search-item__title',
+                     urlPath='a.ui-search-link',
+                     namePath='h2.ui-search-item__title',
                      next_element='//a[@title="Siguiente"', n_result=10):
         return self.searchByCSS(keys, elementsPath, urlPath, namePath, next_element, n_result)
 
@@ -133,7 +137,7 @@ class CrawlerWeb:
                   imgPath='.//img', n_result=4):
         df = DataFrame(columns=['elemento', 'url', 'img', 'titulo', 'descripcion'])
         self.pinterestLogin(settings.PINTEREST_USERNAME, settings.PINTEREST_PASSWORD)
-        sleep(randint(5, 8))
+        sleep(randint(1, 3))
         i = 0
 
         for key in keys:
@@ -143,21 +147,21 @@ class CrawlerWeb:
             for k in range(int(n_result) + 1):
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-                lista = self.driver.find_elements_by_css_selector(elementsPath)
-                print(len(lista))
-                for elem in lista:
-                    try:
-                        title = 'Elemento ' + str(i)
-                        url = elem.find_element_by_xpath(urlPath).get_attribute("href")
-                        img = elem.find_element_by_xpath(imgPath).get_attribute("src")
-                        print('------', url, '----')
-                        i += 1
-                        df = df.append({'elemento': title, 'url': url, 'img': img}, ignore_index=True)
-                    except NoSuchElementException:
-                        break
-                    except StaleElementReferenceException:
-                        pass
-        # self.drive.close()
+            lista = self.driver.find_elements_by_css_selector(elementsPath)
+            print(len(lista))
+            for elem in lista:
+                try:
+                    title = 'Elemento ' + str(i)
+                    url = elem.find_element_by_xpath(urlPath).get_attribute("href")
+                    img = elem.find_element_by_xpath(imgPath).get_attribute("src")
+                    print('------', url, '----')
+                    i += 1
+                    df = df.append({'elemento': title, 'url': url, 'img': img}, ignore_index=True)
+                except NoSuchElementException:
+                    break
+                except StaleElementReferenceException:
+                    pass
+        self.driver.close()
         return df
 
     def pinterestLogin(self, user, password):
@@ -189,8 +193,8 @@ class CrawlerWeb:
     def getPinterestUrl(self, data):
         df_comentarios = DataFrame(columns=['url', 'comentario'])
         # dftitle = DataFrame(columns=['url', 'titulo', 'descripcion'])
-        # self.pinterestLogin()
-        sleep(randint(5, 8))
+        self.pinterestLogin(settings.PINTEREST_USERNAME, settings.PINTEREST_PASSWORD)
+        sleep(randint(1, 3))
         commentTab = './/div[@data-test-id="canonicalCommentsTab"]'
         commentButton = '//button[@aria-label="Mostrar más"]'
         moreComment = './/div[@class="tBJ dyH iFc _yT B9u DrD IZT mWe"]'
@@ -201,7 +205,7 @@ class CrawlerWeb:
         for index, fila in data.iterrows():
             self.driver.get(fila.url)
             # print(self.driver.get_attribute('innerHTML'))
-            sleep(randint(3, 4))
+            sleep(randint(1, 2))
             # seccion de comentarios
             try:
                 titulo = self.driver.find_element_by_xpath(title).text
@@ -228,17 +232,18 @@ class CrawlerWeb:
                     comentario = ""
                     pass
             while 1:
+                print("aquiiiiiii")
                 try:
                     comentarios = self.driver.find_element_by_xpath(moreComment)
                     comentarios.click()
                 except Exception as e:
                     break
-                sleep(randint(2, 3))
+                sleep(randint(1, 2))
             textos = self.driver.find_elements_by_xpath('.//span[@class="tBJ dyH iFc _yT pBj DrD swG"]')
             print(len(textos))
             for text in textos:
                 df_comentarios = df_comentarios.append({'url': fila.url, 'comentario': text.text}, ignore_index=True)
-
+        self.driver.close()
         return data, df_comentarios
 
     def pause(self):

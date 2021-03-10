@@ -11,27 +11,27 @@ from ..crawler.models import Link
 
 
 def start_crawler(query, num_paginas):
-    print("llego aqui")
-    print(query)
-    print(num_paginas)
+    # print("llego aqui")
+    # print(query)
+    # print(num_paginas)
     crawler = CrawlerWeb()
     crawler.setUrl('https://listado.mercadolibre.com.ec/')
     crawler.setElement(by='as_word', findby=0)
-    print("llego aqui")
+    # print("llego aqui")
     df = crawler.e_commerceML(keys=[query], n_result=num_paginas)
     df['pagina'] = 1
 
 
-    print("llego aqui")
+    # print("llego aqui")
     # guardar historial de busqueda
     id_busqueda = buscarid()
     busqueda = Busqueda(id_busqueda=id_busqueda, texto=query, n_paginas=num_paginas, sitios='amazon')
     busqueda.save()
     cont = 0
-    print("llego aqui2")
+    # print("llego aqui2")
 
     for i in df.index:
-        print("llego aqui3")
+        # print("llego aqui3")
 
         titulo = df["titulo"][i]
         url = df["url"][i]
@@ -41,7 +41,7 @@ def start_crawler(query, num_paginas):
             link = Link(id_busqueda=id_busqueda, id_link=cont, url=url, buscador='Mercado Libre')
             link.save()
             datosMercadoLibre(url, id_busqueda, cont)
-    print("llego aqui4")
+    # print("llego aqui4")
 
     # productos = obtener_datos(df, id_busqueda)
     # contexto = {'productos': productos}
@@ -69,7 +69,8 @@ def datosMercadoLibre( link, id_bus, id_pro):
 
     nuevo = []
 
-    titulos = soup.find_all('h1', class_='item-title__primary')
+    titulos = soup.find_all('h1', class_='ui-pdp-title')
+    # titulos = soup.find_all('h1', class_='item-title__primary')
     titulo = " "
     if len(titulos) > 0:
         titulo = titulos[0].text
@@ -83,13 +84,15 @@ def datosMercadoLibre( link, id_bus, id_pro):
         precio = precios[0].text
     nuevo.append(precio)
 
-    ubicaciones = soup.find_all('p', class_='gray')
+    ubicaciones = soup.find_all('p', class_='ui-seller-info__status-info__subtitle')
+    # ubicaciones = soup.find_all('p', class_='gray')
     ubicacion = " "
     if len(ubicaciones) > 0:
         ubicacion = ubicaciones[0].text
     nuevo.append(ubicacion)
 
-    descripciones = soup.find_all('div', class_="item-description__text")
+    descripciones = soup.find_all('p', class_="ui-pdp-description__content")
+    # descripciones = soup.find_all('div', class_="item-description__text")
     descripcion = ""
     if len(descripciones) > 0:
         for i in descripciones:
@@ -99,6 +102,7 @@ def datosMercadoLibre( link, id_bus, id_pro):
     if len(nuevo) > 0:
         nuevo.append(link)
         # datos.append(nuevo)
+        # print(id_busqueda, id_producto, titulo,precio,ubicacion, descripcion, url)
         producto = ProductoMercadoLibre(id_busqueda=id_busqueda, id_producto=id_producto, titulo=titulo,
                                         precio=precio,
                                         ubicacion=ubicacion, descripcion=descripcion, url=url)

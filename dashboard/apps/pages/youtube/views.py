@@ -228,8 +228,11 @@ class YoutubeParametros(View):
                 region = videosForm.cleaned_data.get('region')
                 # hacemos la consulta y guardamos los datos
                 try:
+                    print("1111111111111111", query, region, fecha)
                     youtube_search(query, region, fecha)
+                    print("2222222222222222")
                     for i in query:
+                        print("3333333")
                         # comparacion de si exite algun temino solo actualiza el numero de consulta
                         if TerminoBusqueda.objects.filter(nombre=i).exists():
                             datos = TerminoBusqueda.objects.filter(nombre=i)
@@ -240,7 +243,10 @@ class YoutubeParametros(View):
                                 nombre=i, numero_consulta=1)
                             terminos_busqueda.save()
                     return redirect('app:pages:youtube_resultados')
-                except:
+                except Exception as e:
+                    print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+                    print(e.message)
+                    print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                     messages.info(self.request,
                                   "Error al extraer los datos, revise que los parámetros son los correctos")
                     return redirect('app:pages:youtube')

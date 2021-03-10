@@ -24,9 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'dashboard.apps.frontend',
-
     'dashboard.apps.pages.facebook',
     'dashboard.apps.pages.youtube',
     'dashboard.apps.pages.twitter',

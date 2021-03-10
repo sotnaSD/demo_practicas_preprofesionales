@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import generic
-# importacion  form y conexcion con la api
+# importacion  form y conexion con la api
 from .utils import getAPI
 from .forms import TwitterForm
 # importacion de modelos de bases de datos
@@ -12,8 +12,6 @@ from datetime import datetime
 import django_excel as excel
 
 # View de la plataforma Twiiter
-
-
 class IndexView(generic.View):
     # IndexView:
 
@@ -49,10 +47,20 @@ class IndexView(generic.View):
                     ubicacion = '4e43cac8250a8b20'
                     print('Se paso a pais por defecto Ecuador')
                 # obtencion de tweets mediante la api con los parametro obtenidos del frontend 
-                tweets=tweepy.Cursor(api.search, lang=idioma, q=query,since=fecha_inicio,until=fecha_fin, tweet_mode='extended').items(20)
+                tweets=tweepy.Cursor(api.search,
+                                     lang=idioma,
+                                     q=query,
+                                     since=fecha_inicio,
+                                     until=fecha_fin,
+                                     tweet_mode='extended').items()
             else:
                 # obtencion de tweets mediante la api con los parametro obtenidos del frontend 
-                tweets=tweepy.Cursor(api.search, lang=idioma, q=query, since=fecha_inicio,until=fecha_fin,tweet_mode='extended').items(20)
+                tweets=tweepy.Cursor(api.search,
+                                     lang=idioma,
+                                     q=query,
+                                     since=fecha_inicio,
+                                     until=fecha_fin,
+                                     tweet_mode='extended').items()
             # recorridos por cada tweet y guardado de los datos
             for tweet in tweets:
                 # print('********************')
