@@ -1,0 +1,82 @@
+{% extends 'site//base.html' %}
+{% load static %}
+{% block title %}
+    Dashboard with Django and Bootstrap
+{% endblock title %}
+{% block content %}
+    <div class="container-fluid">
+        {% if messages %}
+            {% for message in messages %}
+
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show font-weight-bold" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <!-- Page Heading -->
+    <div id="alertWrapper">
+
+    </div>
+
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+
+            <h1 class="h3 mb-0 text-gray-800">Detección de temas</h1>
+            <i class="fa fa-google d-none d-sm-inline-block " style="font-size: 55px; color: #F4B400;"></i>
+        </div>
+
+        
+        <div style="text-align: left" id="busquedaWrapper">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="bg-white p-5 rounded shadow">
+
+                    <h4>K Means</h4>
+
+                          <form method="POST">
+                        {% csrf_token %}
+                            <div class="col 12">
+
+
+                            <h4 class="text-xs font-weight-bold text-primary text-uppercase py-2"
+                                    style="text-align: left; margin: 30px 0 10px 0">
+                                    Número de clusters</h4>
+
+                                <div class="col-sm-12 col-md-12 col-xl-12 mb-3 bg-light rounded rounded-pill shadow-sm"
+                                     style="margin: 0px 0px">
+                                    <input type="number" class="form-control border-0 bg-light"
+                                           placeholder="Escriba el número de clusters a considerar"
+                                           id="nClusters" name="nClusters"/>
+                                </div>
+
+                                <h4 class="text-xs font-weight-bold text-primary text-uppercase py-2"
+                                    style="text-align: left; margin: 30px 0 10px 0">
+                                    Codificación</h4>
+
+                                <div>
+                                    <input type="radio" name="codification" value="TF-IDF" checked> <span style="margin: 0 20px 0 0"> TF-IDF </span> 
+                                    <input type="radio" name="codification" value="BOW"> Bag Of Words <br>
+                                </div>
+
+
+                            </div>
+
+                            <div style="text-align: center; margin: 40px 0 0 0">
+                                <button href="#" type="submit"
+                                                class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+                                            Identificar temas
+                                        </button>
+                            </div>
+                        </form>
+                        <!-- End -->
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock content %}

@@ -134,6 +134,47 @@
 					<i class="fab fa-pinterest-square"></i>
 					<span>Pinterest</span></a>
 			</li>
+
+			<!-- Divider -->
+			<hr class="sidebar-divider" />
+
+			<!-- Heading -->
+			<div class="sidebar-heading">
+				Detección de temas
+			</div>
+
+			<!-- Nav Item - Topic Detection -->
+			<li class="nav-item">
+					<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+						<i class="fas fa-search"></i>
+						<span>Hot Topics</span>
+					</a>
+					<div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+						<div class="bg-white py-2 collapse-inner rounded">
+							<a href="{% url 'app:pages:data_structure_analysis' %}" class="collapse-item" >Estructura de datos</a>
+							<a class="collapse-item" >Detección</a>
+
+							<div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+													<div class="bg-white py-2 collapse-inner rounded">
+														<a href="{% url 'app:pages:kmeans' %}" class="collapse-item" >K-Means</a>
+														<a href="{% url 'app:pages:hcagglomerative' %}" class="collapse-item" >H.C. - Agglomerative</a>
+													</div>
+												</div>
+
+
+
+							<a href="{% url 'app:pages:clusteringResults' %}" class="collapse-item" >Resultados</a>
+
+							<a href="{% url 'app:pages:update_db' %}" class="collapse-item" >Actualizar DB</a>
+
+						</div>
+					</div>
+				</li>
+
+
+				
+
+
 			<!-- Divider -->
 			<hr class="sidebar-divider d-none d-md-block" />
 

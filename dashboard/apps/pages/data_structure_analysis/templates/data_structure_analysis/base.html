@@ -1,0 +1,193 @@
+{% extends 'site//base.html' %}
+
+
+{% load static %}
+{% block title %}
+    Dashboard with Django and Bootstrap
+{% endblock title %}
+{% block content %}
+    <div class="container-fluid">
+        {% if messages %}
+            {% for message in messages %}
+
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show font-weight-bold" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <!-- Page Heading -->
+    <div id="alertWrapper">
+
+    </div>
+
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+
+            <h1 class="h3 mb-0 text-gray-800">Estructura de Datos</h1>
+            <i class="fa fa-google d-none d-sm-inline-block " style="font-size: 55px; color: #F4B400;"></i>
+        </div>
+
+        
+        <div style="text-align: left" id="busquedaWrapper">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="bg-white p-5 rounded shadow">
+                        <h4><span style="font-weight: bold">Generalidades</span></h4>
+                        <h6><span style="font-weight: bold">Número de documentos: </span> {{resp_data.n_docs}} </h6>
+                        <h6><span style="font-weight: bold">Promedio de caída de inercias: </span> {{resp_data.avg_dropdown}}</h6>                                                
+                        <h6><span style="font-weight: bold">Varianza de caída de inercia: </span> {{resp_data.var_dropdown}}</h6>
+
+
+                        <table summary="no_orderDate" style="width: 100%">
+                        <tr><th>Ranking</th><th>Número de Clusters</th><th>Caída de Inercia</th>
+                        {% for row in resp_data.best_n_clusters %}
+                            <tr><td>{{ row.ranking }}</td><td>{{ row.n_clusters }}</td><td>{{ row.inertia_dropdown }}</td></tr>
+                    
+                        {% endfor %}
+                        </table>
+
+
+                        <h4 style="margin: 20px 0 0 0"><span style="font-weight: bold">Coeficientes de Inercia</h6>
+
+                        <img style="width: 100%;" src="{% static inertias_file_name%}" alt="inertias dropdown">
+
+                        <h4 style="margin: 20px 0 0 0"><span style="font-weight: bold">Coeficientes de Silueta</h6>
+
+                        <img style="width: 100%;" src="{% static silhouette_file_name%}" alt="inertias dropdown">   
+
+                        {% comment %} <!-- Custom rounded search bars with input group -->
+                        <form action="">
+                            <div class="col 12">
+                                 <h4 class="text-xs font-weight-bold text-primary text-uppercase py-2"
+                                    style="text-align: left">
+                                    Términos o temas de Búsqueda</h4> 
+                                 <div class="col-sm-12 col-md-12 col-xl-12 mb-3 bg-light rounded rounded-pill shadow-sm"
+                                     style="margin: 0px 0px">
+                                    <input type="text" class="form-control border-0 bg-light"
+                                           placeholder="Escriba el primer término de búsqueda (Ejm: textil,tela,algodon)"
+                                           id="terminoBusqueda" name="palabraClave"/>
+                                </div> 
+                                 <h4 class="text-xs font-weight-bold text-primary text-uppercase py-2"
+                                    style="text-align: left">Región en donde se realizará la búsqueda</h4> 
+                                <div class="col-sm-12 col-md-12 col-xl-12 mb-3 bg-light rounded rounded-pill shadow-sm"
+                                     style="margin: 0px 0px">
+
+
+                                    <input type="text" class="form-control border-0 bg-light"
+                                           placeholder="Escriba la región (Ejm: EC para Ecuador)"
+                                           id="region" name="region"/>
+                                </div>
+                                 <button id="button-addon1" type="submit" class="btn btn-link text-primary"
+                                        style="font-size: 20px"><i
+                                        class="fa fa-search"></i> Buscar Tendencias
+                                </button>
+
+                            </div>
+                        </form> {% endcomment %}
+                        <!-- End -->
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="container mb-3" style="text-align: center;">
+            <div class="row mr-4">
+                <div class="row" id="legend">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-xl-10 col-lg-10 container invisible" id="tiempoContainer">
+            <div class="card shadow mb-4">
+
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary" id='tituloTiempo'>Interés a lo largo del
+                        tiempo</h6>
+
+                    <div class="dropdown no-arrow">
+                        <a class=" text-primary" id="buttonDescargar" style="cursor: pointer"
+                           title="Descargar como csv"><i class="fa-fw fas fa-download"></i></a>
+                        <a
+                                class="dropdown-toggle"
+                                href="#"
+                                role="button"
+                                id="dropdownMenuLink"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                        >
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-primary"></i>
+
+                        </a>
+                        <div
+                                class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                aria-labelledby="dropdownMenuLink"
+                        >
+                            <div class="dropdown-header">Intervalo de tiempo:</div>
+                            <a class="dropdown-item" href="#" id="1dia">Ultimo día</a>
+                            <a class="dropdown-item" href="#" id="1semana">Ultima semana</a>
+                            <a class="dropdown-item" href="#" id="1mes">Ultimo mes</a>
+                            <a class="dropdown-item" href="#" id="3meses">Ultimos 3 meses</a>
+                            <a class="dropdown-item" href="#" id="12meses">Ultimos 12 meses</a>
+                            <a class="dropdown-item" href="#" id="5anios">Ultimos 5 años</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" id="2004"> 2004 - hoy</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Card Body -->
+
+                <div class="card-body">
+                    <div class="chart-area" id='chart-container'>
+
+                        <canvas id="myAreaChartGoogle"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Area Chart -->
+
+            <!-- Pie Chart -->
+            {#            <div class="container-fluid mr-5 ml-5 row invisible" id="regionContainer">#}
+            {#                <div class="col-xl-6 col-lg-6 mb-3">#}
+            {#                    <div class="card shadow mb-6">#}
+            {#                        <!-- Card Header - Dropdown -->#}
+            {#                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">#}
+            {#                            <h6 class="m-0 font-weight-bold text-primary" id="region-titulo">Interés por región</h6>#}
+            {#                        </div>#}
+            {#                        <!-- Card Body -->#}
+            {#                        <div class="card-body">#}
+            {#                            <div class="chart-area pt-0 pb-0" id="chart-container-region">#}
+            {#                                <canvas id="horizontalBarChartCanvas"></canvas>#}
+            {#                            </div>#}
+            {##}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#                <div class="col-xl-6 col-lg-6">#}
+            {#                    <div class="card shadow mb-6">#}
+            {#                        <!-- Card Header - Dropdown -->#}
+            {#                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">#}
+            {#                            <h6 class="m-0 font-weight-bold text-primary" id="region-titulo2">Interés por región</h6>#}
+            {#                        </div>#}
+            {#                        <!-- Card Body -->#}
+            {#                        <div class="card-body">#}
+            {#                            <div class="chart-area pt-0 pb-0" id="chart-container-region2">#}
+            {#                                <canvas id="horizontalBarChartCanvas2"></canvas>#}
+            {#                            </div>#}
+            {##}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+        </div>
+    </div>
+{% endblock content %}

@@ -35,8 +35,13 @@ INSTALLED_APPS = [
     'dashboard.apps.pages.crawler',
     'dashboard.apps.pages.mercadolibre_scraping',
     'dashboard.apps.pages.amazon',
-    'dashboard.apps.pages.pinterest'
-
+    'dashboard.apps.pages.pinterest',
+    'dashboard.apps.pages.topic_detection',
+    'dashboard.apps.pages.data_structure_analysis',
+    'dashboard.apps.pages.clustering_results',
+    'dashboard.apps.pages.kmeans',
+    'dashboard.apps.pages.hcagglomerative',
+    'dashboard.apps.pages.update_db',
 ]
 
 MIDDLEWARE = [

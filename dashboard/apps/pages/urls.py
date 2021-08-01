@@ -12,6 +12,15 @@ import dashboard.apps.pages.google.views as googleViews
 import dashboard.apps.pages.pinterest.views as pinterestViews
 import dashboard.apps.frontend.views as mainViews
 
+import dashboard.apps.pages.topic_detection.views as tdViews
+import dashboard.apps.pages.data_structure_analysis.views as dSAView
+import dashboard.apps.pages.clustering_results.views as cRView
+
+import dashboard.apps.pages.kmeans.views as KMView
+import dashboard.apps.pages.hcagglomerative.views as HCAView
+import dashboard.apps.pages.update_db.views as DBView
+
+
 app_name = 'pages'
 
 urlpatterns = [
@@ -49,5 +58,14 @@ urlpatterns = [
     path('pinterest', pinterestViews.IndexView.as_view(), name='pinterest'),
     path('pinterest_resultados', pinterestViews.PinterestResultados.as_view(),
          name='pinterest-resultados'),
-
+    
+    path('topic_detection', tdViews.IndexView.as_view(), name='topic_detection'),
+    path('data_structure_analysis', dSAView.IndexView.as_view(), name='data_structure_analysis'),
+    path('clusteringResults', cRView.IndexView.as_view(), name='clusteringResults'),
+    
+    path('kmeans', KMView.IndexView.as_view(), name='kmeans'),
+    
+    path('hcagglomerative', HCAView.IndexView.as_view(), name='hcagglomerative'),
+    
+    path('update_db', DBView.IndexView.as_view(), name='update_db'),
 ]

@@ -1,0 +1,45 @@
+{% extends 'site//base.html' %}
+{% load static %}
+{% block title %}
+    Dashboard with Django and Bootstrap
+{% endblock title %}
+{% block content %}
+    <div class="container-fluid">
+        {% if messages %}
+            {% for message in messages %}
+
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show font-weight-bold" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <!-- Page Heading -->
+    <div id="alertWrapper">
+
+    </div>
+
+
+        <div style="text-align: center" id="busquedaWrapper">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="bg-white p-5 rounded shadow">
+
+
+                        <form  method = "POST">
+                        {% csrf_token %}
+                            <input type = "submit" value = "Actualizar la Base de Datos">
+                        </form>
+
+                        {% comment %} <h3>Actualización Exitosa</h3> {% endcomment %}
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock content %}
